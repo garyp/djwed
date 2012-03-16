@@ -1,0 +1,37 @@
+
+<div style="font-family: georgia,new york,serif; font-size: 12pt; color: #990000; background-color: #fff9ef; padding: 2em; border: solid 4px #dd0000;">
+
+<img style="margin: 6pt;" src="http://wedding.example.org/static/horizontal-border.png">
+
+<p>Dear {{invitee.first_names}},</p>
+
+{%if invitee.rsvp_any_yes %}<p>We look forward to seeing you at our wedding!</p>
+
+{%if invitee.rsvp_missing_food_selection %}<p>As of today, we still do not have food selections from you for our dinner reception.</p>{%endif %}
+{%else%}
+<p>We hope that you'll be able to make it to our wedding.</p>
+{%endif%}
+
+<p>At the moment, we've recorded that: <i>{{invitee.rsvp_yes_text|safe}}</i></p>
+
+<p>You can update your attendance and food preference here:</p>
+
+<p style="margin-left: 5em;"><a href="http://wedding.example.org/rsvp/{{invitee.invite_code}}/">http://wedding.ab.org/rsvp/{{invitee.invite_code}}/</a></p>
+
+<p>Your invite code for the website is: <tt>{{invitee.invite_code}}</tt></p>
+
+<p>Please also let us know if you have any food restrictions.</p>
+
+<p>You may also request a shuttle bus reservation for Massachusetts on our website.</p>
+
+<p>As always, please let us know if you have any questions.</p>
+
+<p>Best wishes,</p>
+
+<p style="margin-left: 5em;">Alyssa and Ben</p>
+
+
+<img style="margin: 6pt;" src="http://wedding.example.org/static/horizontal-border.png">
+
+</div>
+

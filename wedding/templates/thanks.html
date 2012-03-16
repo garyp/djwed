@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Alyssa and Ben's Wedding: Thank you!{% endblock %}
+{% block header %}<h1>Thank you for your update!</h1>{% endblock %}
+
+{% block content %}
+
+<p>Your update has been processed.</p>
+
+<p>{{ invitee.rsvp_yes_text|safe }}</p>
+
+<h3>You might also like to...</h3>
+
+<ul>
+<li><a href="/profile/">... verify and update your contact information</a></li>
+<li><a href="/comment/">... leave a comment for us</a></li>
+</ul>
+
+{% include "return_to_rsvp.html" %}
+
+{% endblock %}

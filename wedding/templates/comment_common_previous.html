@@ -1,0 +1,13 @@
+
+<p>Previous <a href="/comment/">comments</a> you have left:</p>
+
+<table class="infotable">
+{% for c in comments reversed %}
+<tr>
+<td>{{ c.type }}</td>
+<td>{{ c.text|linebreaks }}</td>
+<td>{{ c.last_updated|date:"N j \@ P" }}</td>
+</tr>
+{% endfor %}
+</table>
+

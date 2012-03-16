@@ -1,0 +1,57 @@
+{% extends "base_tools.html" %}
+
+{% block title %}Alyssa and Ben's Wedding: Admin Report{% endblock %}
+
+{%block header %}<h1>Responses order by last update</h1>{%endblock%}
+
+{% block content %}
+
+<table class="infotable">
+<tr>
+<th>Guest</th>
+<th>RSVP</th>
+<th>Comments</th>
+<th>When</th>
+</tr>
+{% for inv in invitees %}
+{% if inv.last_visited %}
+<tr>
+  <th colspan="3" style="background-color: #dd9999;">
+    <a href="/admin/wedding/invitee/{{inv.id}}/">
+      {{ inv.full_name }}
+    </a>
+  </th>
+  <td  style="background-color: #dd9999;">
+    Updated: <b> {{ inv.last_updated|timesince }} ago</b> <br>
+    Visited: <b> {{ inv.last_visited|timesince }} ago</b> <br>
+  </td>     
+</tr>
+{% for g in inv.guest_set.all %}
+<tr>
+<td width="20%">
+  <a href="/admin/wedding/guest/{{g.id}}/">
+    {{ g.full_name }}
+  </a>
+</td>
+<td>
+  {% for r in g.rsvp_set.all %}
+  {{ r.venue.site }}: {{r.status}}<br>
+  {% endfor %}
+</td>
+
+{%if forloop.first %}
+<td rowspan="{{ inv.guest_set.count}}" colspan="2">
+  {% for c in inv.comment_set.all %}
+  {%if not forloop.first %}<hr>{% endif %}
+  {{c.text}} [{{ c.type }}]<br>
+  {% endfor %}
+</td>
+{% endif %}
+
+</tr>
+{% endfor %}
+{% endif %} {# last_visited #}
+{% endfor %}
+</table>
+
+{% endblock %}

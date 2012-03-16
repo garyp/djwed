@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Alyssa and Ben's Wedding: Login{% endblock %}
+{% block header %}<h1>Alyssa and Ben's Wedding: Login</h1>{% endblock %}
+
+{% block content %}
+
+{% if form.errors %}
+<p>Your invite code didn't match.  Please try again.</p>
+<p>If you continue to have problems, please email us for a new invite code.</p>
+{% endif %}
+
+<h2>Please enter your invite code:</h2>
+<form method="post" action="{% url djwed.wedding.auth.rsvp_login %}">
+<table>
+<tr>
+  <td>{{ form.token.label_tag }}</td>
+    <td>{{ form.token }}</td>
+</tr>
+</table>
+<input type="submit" value="login" />
+<input type="hidden" name="next" value="{{ next }}" />
+</form>
+
+<p>Your Invite Code was included in the save-the-date and invitations
+and allows this site to authenticate your login.</p>
+
+
+{% endblock %}

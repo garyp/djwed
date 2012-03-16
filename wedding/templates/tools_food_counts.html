@@ -1,0 +1,56 @@
+{% extends "base_tools.html" %}
+
+{% block title %}Alyssa and Ben's Wedding: Food and Bus Counts by Venue{% endblock %}
+
+{%block header %}<h1>Food and Bus Counts by Venue</h1>{%endblock%}
+
+{% block content %}
+
+
+<table style="font-family: Verdana, Ariel, Sans;">
+  <tr>
+    {%for vr in venue_reports %}
+    <td valign="top" style="padding: 1em; border: 2px solid #990000;" width="50%">
+      <h2>Venue: {{vr.venue}}</h2>
+
+      <p>NOTE: Based only on current "YES" responses</p>
+
+      <hr>
+
+      <h3>Food:</h3>
+      <table class="infotable" style="font-size: 18pt;" >
+	{%for food in vr.food_report.counts%}
+	  <tr><td>{{food.name}}</td><td>{{food.count}}</td></tr>
+	{%endfor%}
+
+	{%ifequal vr.venue.site "MA"%}
+	  <tr><td>Vendor</td><td>4 (DJ, 2xPhoto, Video)</td></tr>
+	{%endifequal%}
+	{%ifequal vr.venue.site "CA"%}
+	  <tr><td>Vendor</td><td>1 (DJ)</td></tr>
+	{%endifequal%}
+
+      </table>
+
+      <hr>
+      
+      {%ifequal vr.venue.site "MA"%}
+      <h3>Bus:</h3>
+      <table class="infotable" style="font-size: 18pt;" >
+	{%for bus in vr.bus_report.counts%}
+	  <tr><td>{{bus.name}}</td><td>{{bus.count}}</td></tr>
+	{%endfor%}
+      </table>
+      {%endifequal%}
+
+      <hr>
+
+      {%include "report_tables.html" %}
+
+    </td>
+
+    {%endfor%}
+  </tr>
+</table>
+
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}Alyssa and Ben's Wedding: RSVP{% endblock %}
+{% block header %}<h1>Alyssa and Ben's Wedding: RSVP</h1>{% endblock %}
+
+{% block content %}
+
+<h2>Welcome {{ invitee.full_name }}!</h2>
+
+<h3>Available actions:</h3>
+
+<ul>
+<li><a href="/rsvp/profile/">Update your contact information</a></li>
+<li><a href="/rsvp/addguest/">Add a guest</a></li>
+</ul>
+
+
+<h3>Information we have about your party:</h3>
+<table class="infotable">
+<tr><th valign="top">Address:</th><td>{{invitee.full_address|linebreaksbr}}</td></tr>
+<tr><th>Invite Code:</th><td><a href="/rsvp/{{invitee.invite_code}}/">{{invitee.invite_code}}</a></td></tr>
+</table>
+
+<h3>You and your guests:</h3>
+<table class="infotable">
+<tr>
+  <th>Guest Name</th>
+  <th>Email Address</th>
+  <th>Home Phone</th>
+  <th>Mobile Phone</th>
+<tr>
+{% for g in invitee.ordered_guests.all %}
+<tr>
+  <td>{{g.full_name}}</td>
+  <td>{{g.email}}</td>
+  <td>{{g.home_phone}}</td>
+  <td>{{g.mobile_phone}}</td>
+</tr>
+{% endfor %}
+</table>
+
+<hr>
+
+<form action="/rsvp/" method="post">
+<h3>Please feel free to leave us comments:</h3>
+<table class="infotable">
+{{ comment_form.as_table }}
+</table>
+<input type="submit" value="Submit" />
+</form>
+
+<p>Previous comments you have left:</p>
+
+<ul>
+{% for c in comments %}
+<li>{{ c.type }}: {{ c.text }}</li>
+{% endfor %}
+</ul>
+
+
+{% endblock %}

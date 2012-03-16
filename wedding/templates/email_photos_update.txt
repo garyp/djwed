@@ -1,0 +1,23 @@
+Dear {{invitee.first_names}},
+
+Thank you so much for attending our wedding a week ago!
+It meant so much to us that you were able to be there to support
+us as we entered into this new chapter of our lives.
+
+We thought you might be interested in seeing photos 
+of the wedding and reception as they are uploaded by
+other guests (and as our photographers make them available).
+
+You can find the current set of photos at:
+
+    http://wedding.example.org/photos/{{invitee.invite_code}}/
+
+You may also upload your own photos there for us (and others) to see.
+Your login "invite code" for the website is: {{invitee.invite_code}}
+
+Thank you so much!  It was wonderful to be able to share this with you.
+
+Best wishes,
+
+   Alyssa and Ben
+

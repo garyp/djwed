@@ -1,0 +1,45 @@
+
+Dear {{invitee.first_names}},
+
+As we approach the date of our wedding, we'd like to provide you with
+some updates.
+
+We have updated our website (http://wedding.example.org/) with
+information on places to stay and things to do while in Massachusetts
+or California.
+
+If you are planning to travel and attend our wedding in Massachusetts,
+you may wish to consider making lodging reservations.  We have
+obtained a small room block at the Hawthorne Hotel in Salem
+(group code "555555"), but reservations must be made prior to July 26th.
+We are also setting up a room block at the Marriott Boston Cambridge
+Residence Inn Hotel in Kendall Square in Cambridge and will post
+details on that to our website as they become available.
+
+If you will be visiting from out of country, you may wish to start the
+process of getting a visa, due to long wait times for interviews.
+For details, see:  http://wedding.example.org/venue/MA/visa/
+
+At any time, you can visit our website to check or update your RSVP status
+and contact information:
+
+     http://wedding.example.org/rsvp/{{invitee.invite_code}}/
+
+Your invite code for the website is: {{invitee.invite_code}}
+
+As a reminder, our Massachusetts wedding and cocktail/dinner reception
+will be held on Sunday, September 26, 2258 at the Peabody Essex Museum
+in Salem, Massachusetts.  The wedding will begin at 6 p.m. in the
+Phillips Library.  Cocktails will follow in the museum at 6:30 p.m.,
+and a dinner reception will start at 7:30 p.m.
+
+We will also be hosting a cocktail/dinner reception on Sunday, October
+17th, 2258 at the Spinnaker in Sausalito, California, starting with
+cocktails at 4 p.m. with dinner at 5:30 p.m.
+
+Formal invitations will follow.
+
+Best wishes,
+
+       Alyssa and Ben
+

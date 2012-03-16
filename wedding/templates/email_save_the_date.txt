@@ -1,0 +1,30 @@
+
+Dear {{invitee.first_names}},
+
+Alyssa P Hacker and Ben Bitdiddle are getting married!
+
+We would be honored if you would attend our celebration.
+
+Our Massachusetts wedding and reception will be held on 
+Sunday, September 26, 2258 at the Peabody Essex Museum 
+in Salem, Massachusetts.
+
+We will also be hosting a reception on Sunday, October 17th, 2258
+at the Spinnaker in Sausalito, California.
+
+For more information, to verify that we have your correct
+contact information, and to let us know if you are considering 
+attending, please visit:
+
+	http://wedding.example.org/rsvp/{{invitee.invite_code}}/
+
+Your invite code for the website is: {{invitee.invite_code}}
+
+We hope that you will save the date, and we look forward to celebrating with you.
+
+Formal invitations will follow.
+
+Best wishes,
+
+     Alyssa and Ben
+

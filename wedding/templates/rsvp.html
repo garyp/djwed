@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+
+{% block title %}Alyssa and Ben's Wedding: RSVP{% endblock %}
+{% block header %}<h1>Alyssa and Ben's Wedding: RSVP</h1>{% endblock %}
+
+{% block content %}
+
+<p>Welcome, {{ invitee.full_name }}!</p>
+
+<p>{{ invitee.rsvp_yes_text|safe }}</p>
+
+
+<h3>Additional available actions:</h3>
+
+<ul>
+<li><a href="/profile/">Verify and update your contact information</a></li>
+{%if allow_rsvp_changes %}
+<li><a href="/rsvp/addguest/">Request addition of a guest</a></li>
+{%endif%}
+<li><a href="/comment/">Leave a comment for us</a></li>
+</ul>
+
+<h3>Please indicate whether you will be able to attend...</h3>
+
+<p>Please RSVP by September 10.  You may revise your responses prior
+to that date.  You may also <a href="/comment/">leave us comments</a>,
+such as for any dietary restrictions or other needs.</p>
+
+{% if invitee.limited_venue %}
+<p>Due to venue space limitations, and to minimize the environmental
+impact of air travel, we are encouraging guests to attend the venue
+closest to them.</p>
+{% endif %}
+
+
+{%if not allow_rsvp_changes %}
+<p>RSVP changes may no longer be made online.
+Please <a href="mailto:ab@example.org">email us</a> with
+updates.  Below is your current RSVP status.</p>
+{%else%}
+<p>Please <a href="mailto:ab@example.org">email us</a> if you
+have any questions.</p>
+{%endif%}
+
+<form action="/rsvp/" method="post">
+{% for g in guest_rsvps %}
+  <div class="formBox">
+    <h3>Guest: {{g.guest.full_name}}</h3>
+
+	{%if g.MA %}
+        <div class="GuestVenue">
+          <h4><a href="/venue/MA/">Massachusetts Wedding and Reception</a> on Sunday September 26th, 2258</h4>	  
+          {{ g.MA.errors }}
+	  <div class="AttendingSelect" onchange="rsvpHideIfNotAttending(this);">
+	  <div class="fieldWrapper">
+	    <div class="fieldLabel">
+	    </div>
+	    {{ g.MA.status }}
+	  </div>
+	  </div>
+	  <div class="IfAttending">
+	  <div class="fieldWrapper">
+	    <div class="fieldLabel">
+	      Meal selection (please  <a href="/comment/food/">inform us of any dietary restrictions 
+	      in a comment</a>): 
+	    </div>
+	    {{ g.MA.food_selection }}
+	  </div>
+	  <div class="fieldWrapper">
+	    <div class="fieldLabel">
+	      <a href="/venue/MA/directions/">Shuttle bus reservation</a> for this guest: 
+	    </div>
+	    {{ g.MA.bus_selection }}
+	  </div>
+	  </div>
+          </div>
+
+	  {%if g.CA %}
+	  <hr style="margin: 2em;">
+	  {% endif %}
+
+	{% endif %}
+
+	{%if g.CA %}
+	  <div class="GuestVenue">
+	  <h4><a href="/venue/CA/">California Reception</a> on Sunday October 17th, 2258</h4>
+          {{ g.CA.errors }}
+	  <div class="AttendingSelect" onchange="rsvpHideIfNotAttending(this);">
+	  <div class="fieldWrapper">
+	    <div class="fieldLabel">
+	    </div>
+	    {{ g.CA.status }}
+	  </div>
+	  </div>
+	  <div class="IfAttending">
+	  <div class="fieldWrapper">
+	    <div class="fieldLabel">
+	      Meal selection (please  <a href="/comment/food/">inform us of any dietary restrictions 
+	      in a comment</a>): 
+	    </div>
+	    {{ g.CA.food_selection }}
+	  </div>
+	  </div>
+	  </div>
+	{% endif %}
+
+
+  </div>
+
+
+{% endfor %}
+
+{%if allow_rsvp_changes %}
+<div class="formButton" style="margin-bottom: 3em;">
+<input type="submit" value="Submit RSVP" />
+</div>
+{%else%}
+<table class="infotable" style="margin-bottom: 3em;">
+<tr><th>RSVP changes may no longer be made online.<br/>
+Please <a href="mailto:djwed.wedding.example.org">email us</a> with
+updates.</th></tr>
+</table>
+{%endif%}
+
+</form>
+
+<hr>
+
+
+<h3>Information we have about your party: [<a href="/profile/">update</a>]</h3>
+<table class="infotable">
+<tr><th valign="top">Address:</th><td>{{invitee.full_address|linebreaksbr}}</td></tr>
+<tr><th>Invite Code:</th><td><a href="/rsvp/{{invitee.invite_code}}/">{{invitee.invite_code}}</a></td></tr>
+</table>
+
+<h3>You and your guests: [<a href="/profile/">update</a>]</h3>
+<table class="infotable">
+<tr>
+  <th>Guest Name</th>
+  <th>Email Address</th>
+  <th>Home Phone</th>
+  <th>Mobile Phone</th>
+<tr>
+{% for g in invitee.ordered_guests.all %}
+<tr>
+  <td>{{g.full_name}}</td>
+  <td>{{g.email}}</td>
+  <td>{{g.home_phone}}</td>
+  <td>{{g.cell_phone}}</td>
+</tr>
+{% endfor %}
+</table>
+
+
+<hr>
+
+{% include "comment_common_previous.html" %}
+
+{% include "privacy_common.html" %}
+
+    <script language="javascript">
+      <!--
+	  rsvpHideBasedOnAttending();
+      -->
+    </script>
+
+
+{% endblock %}

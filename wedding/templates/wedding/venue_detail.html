@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}Alyssa and Ben's Wedding: {{object.site}} {% endblock %}
+{% block header %}<h1>{{ object.type }} in {{object.city}}, {{object.state}}</h1>{% endblock %}
+
+{% block content %}
+
+<p>{{ object.html|safe}}</p>
+
+
+{% endblock %}

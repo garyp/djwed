@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Alyssa and Ben's Wedding: Upload Photos{% endblock %}
+{% block header %}<h1>Upload Photos</h1>{% endblock %}
+
+{% block content %}
+
+<p>You may upload a ZIP file of photos here and they will appear in a gallery accessible to other guests.</p>
+
+<p><b>There are still some defects with this system that I hope to fix
+soon.  In particular, you'll need to have the photos already rotated
+as this app does not yet automatically rotate photos.</b></p>
+
+<form method="post" enctype="multipart/form-data" action="/photos/upload/" id="galleryupload_form">
+
+  <div class="formBox">
+  {% for field in form %}
+    {% if not field.is_hidden %}
+      <div class="fieldWrapper">    
+      <div class="fieldLabel">{{ field.label_tag }}
+      </div>
+      {{ field }}
+      {{ field.errors }}
+      </div>
+    {% endif %}
+  {% endfor %}
+  {% for hidden in form.hidden_fields %}
+      {{ hidden }}
+  {% endfor %}
+  </div>
+
+<div class="formButton">
+<input type="submit" value="Submit Request" class="default" name="_save" />
+</div>
+
+</form>
+
+<p>(This application is based on django-photologue.)</p>
+
+
+<hr style="margin-top: 6em;">
+
+
+{% endblock %}

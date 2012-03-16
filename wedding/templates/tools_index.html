@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Alyssa and Ben's Wedding: Admin Tools {% endblock %}
+{% block header %}<h1>Admin Tools</h1>{% endblock %}
+
+{% block content %}
+
+<ul>
+  <li><a href="/admin/">Admin login page</a></li>
+  <li>Edit...</li>
+  <ul>
+    <li><a href="/admin/wedding/invitee/">Edit: invitees</a></li>
+    <li><a href="/admin/wedding/guest/">Edit: guests</a></li>
+    <li><a href="/admin/wedding/gift/">Edit: gifts</a></li>
+    <li><a href="/admin/wedding/comment/">Edit: comments</a></li>
+    <li><a href="/admin/wedding/pagesnippet/">Edit: page snippets</a></li>
+    <li><a href="/admin/wedding/venue/">Edit: venues</a></li>
+    <li><a href="/admin/wedding/table/">Edit: tables</a></li>
+    <li><a href="/admin/wedding/rsvp/">Edit: RSVP information for guests</a></li>
+  </ul>
+  <li>Reports...</li>
+  <ul>
+    <li><a href="/tools/responses/">Guest responses ordered by most recent update</a></li>
+    <li><a href="/tools/guest-count/">Response counts by venue</a></li>
+    <li><a href="/tools/food-count/">Food and bus counts</a></li>
+    <li><a href="/tools/table-count/CA/">Table counts (CA)</a>     (<a href="/tools/table-count/MA/">MA</a>)</li>
+    <li><a href="/tools/invitee-list/std/">Invitee list: ordered by "send std"</a></li>
+  </ul>
+  <li>Materials...</li>
+  <ul>
+    <li><a href="/tools/mailing-labels/">Mailing labels for all guests</a></li>
+    <li><a href="/tools/mailing-labels/std/">Mailing labels for "Save the Date" guests</a></li>
+    <li><a href="/tools/invitee-merge/std-insert/std/">Save-the-Date inserts for "Save the Date" guests (PS)</a></li>
+    <li><a href="/tools/invitee-merge/response-card-insert/test/">Response card inserts for "Test" guests (PS)</a></li>
+    <li><a href="/tools/invitee-merge/response-card-insert/non-ru/">Response card inserts for "Non-Russia" guests (PS)</a></li>
+    <li><a href="/tools/invitee-merge/invitee-code-insert/non-ru/">Invitee code inserts for "Non-Russia" guests (PS)</a></li>
+    <li><a href="/tools/invitee-merge/invitation-envelopes/non-ru/">Mailing envelopes for "Non-Russia" guests (PS)</a></li>
+    <li><a href="/tools/invitee-merge/invitation-envelopes/ru/">Mailing envelopes for "Russia" guests (PS)</a></li>
+    <li><a href="/tools/rsvp-merge/placecards/MA/">Placecards (MA)</a></li>
+  </ul>
+  <li>Export...</li>
+  <ul>
+    <li><a href="/tools/export-guests/all/">Export all guests (as XLS)</a></li>
+    <li><a href="/tools/export-invitees/all/">Export all invitees (as XLS)</a></li>
+    <li><a href="/tools/export-invitees/std/">Export save-the-date invitees (as XLS)</a></li>
+    <li><a href="/tools/export-bus/all/">Export people taking the bus (as XLS)</a></li>
+    <li><a href="/tools/export-gifts/all/">Export gift list (as XLS)</a></li>
+  </ul>  
+  <li>External resources...</li>
+  <ul>
+    <li><a href="">Hawthorne Room Block</a>
+  </ul>
+
+</ul>
+
+{% endblock %}

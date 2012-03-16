@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}Alyssa and Ben's Wedding: RSVP{% endblock %}
+{% block header %}<h1>Alyssa and Ben's Wedding: RSVP</h1>{% endblock %}
+
+{% block content %}
+
+
+
+
+
+
+
+
+<form action="/rsvp/" method="post">
+{% for g in guest_rsvps %}
+  <div class="formBox">
+    <h3>Guest: {{g.guest.full_name}}</h3>
+
+	{%if g.MA %}
+        <div class="GuestVenue">
+          <h4><a href="/venue/MA/">Massachusetts Wedding and Reception</a> on Sunday September 26th, 2258</h4>	  
+          {{ g.MA.errors }}
+	  <div class="AttendingSelect" onchange="rsvpHideIfNotAttending(this);">
+	  <div class="fieldWrapper">
+	    <div class="fieldLabel">
+	    </div>
+	    {{ g.MA.status }}
+	  </div>
+	  </div>
+	  <div class="IfAttending">
+	  <div class="fieldWrapper">
+	    <div class="fieldLabel">
+	      Meal selection (please  <a href="/comment/food/">inform us of any dietary restrictions 
+	      in a comment</a>): 
+	    </div>
+	    {{ g.MA.food_selection }}
+	  </div>
+	  <div class="fieldWrapper">
+	    <div class="fieldLabel">
+	      <a href="/venue/MA/directions/">Shuttle bus reservation</a> for this guest: 
+	    </div>
+	    {{ g.MA.bus_selection }}
+	  </div>
+	  </div>
+          </div>
+
+	  {%if g.CA %}
+	  <hr style="margin: 2em;">
+	  {% endif %}
+
+	{% endif %}
+
+	{%if g.CA %}
+	  <div class="GuestVenue">
+	  <h4><a href="/venue/CA/">California Reception</a> on Sunday October 17th, 2258</h4>
+          {{ g.CA.errors }}
+	  <div class="AttendingSelect" onchange="rsvpHideIfNotAttending(this);">
+	  <div class="fieldWrapper">
+	    <div class="fieldLabel">
+	    </div>
+	    {{ g.CA.status }}
+	  </div>
+	  </div>
+	  <div class="IfAttending">
+	  <div class="fieldWrapper">
+	    <div class="fieldLabel">
+	      Meal selection (please  <a href="/comment/food/">inform us of any dietary restrictions 
+	      in a comment</a>): 
+	    </div>
+	    {{ g.CA.food_selection }}
+	  </div>
+	  </div>
+	  </div>
+	{% endif %}
+
+
+  </div>
+
+
+{% endfor %}
+
+<div class="formButton" style="margin-bottom: 3em;">
+<input type="submit" value="Submit RSVP" />
+</div>
+</form>
+
+    <script language="javascript">
+      <!--
+	  rsvpHideBasedOnAttending();
+      -->
+    </script>
+
+
+{% endblock %}

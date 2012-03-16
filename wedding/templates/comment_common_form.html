@@ -1,0 +1,18 @@
+<form action="/comment/" method="post">
+<div class="formBox">
+<h4>Please feel free to leave us private comments:</h4>
+<div class="formWrapper">
+      <div class="fieldWrapper">    
+      {{ comment_form.text }}
+      </div>
+      <div class="fieldWrapper">    
+      <div class="fieldLabel">Type of comment</div>
+      {{ comment_form.type }}
+      {{ comment_form.errors }}
+      </div>
+</div>
+<input type="submit" value="Submit Comment" />
+</form>
+</div>
+
+

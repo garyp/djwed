@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %} Alyssa and Ben's Wedding: {{pagesnippet.title}} {% endblock %}
+{% block header %}<h1>{{pagesnippet.title|safe}}</h1>{% endblock %}
+
+{% block content %}
+
+<p>{{ pagesnippet.html|safe}}</p>
+
+<!-- last modified: {{ pagesnippet.last_updated }} -->
+
+{% endblock %}

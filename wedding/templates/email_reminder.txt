@@ -1,0 +1,29 @@
+Dear {{invitee.first_names}},
+
+{%if invitee.rsvp_any_yes %}We look forward to seeing you at our wedding!
+
+{%if invitee.rsvp_missing_food_selection %}As of today, we still do not have food selections
+from you for our dinner reception.{%endif %}
+{%else%}
+We hope that you'll be able to make it to our wedding.
+{%endif%}
+
+At the moment, we've recorded that:
+{{invitee.rsvp_yes_text|striptags|wordwrap:65}}
+
+You can update your attendance and food preference here:
+
+       http://wedding.example.org/rsvp/{{invitee.invite_code}}/ 
+
+Your invite code for the website is: {{invitee.invite_code}}
+
+Please also let us know if you have any food restrictions.
+
+You may also request a shuttle bus reservation 
+for Massachusetts on our website.
+
+As always, please let us know if you have any questions.
+
+Best wishes,
+
+      Alyssa and Ben

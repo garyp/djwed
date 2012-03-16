@@ -1,0 +1,249 @@
+
+
+/* Colors:
+    dark red:     #990000
+    lighter red:  #bb0000
+    blue:         #003399
+    dark beige:   #e6d8c0
+    light beige:  #fff9ef
+    mid beige:    #ffefd5
+    mid beigh 2:  #f6ece3
+
+  Derived from: http://www.456bereastreet.com/lab/developing_with_web_standards/csslayout/2-col/
+*/
+
+@font-face { font-family: 'LMRoman'; src: url('/media/fonts/lmroman9-regular.otf'); }
+@font-face { font-family: 'LMRoman'; src: url('/media/fonts/lmroman9-bold.otf'); font-weight: bold; }
+/*@font-face { font-family: 'LMRoman'; src: url('/media/fonts/lmroman9-bolditalic.otf'); font-weight: bold; font-style: italic; } */
+@font-face { font-family: 'LMRoman'; src: url('/media/fonts/lmroman9-italic.otf'); font-style: italic; }
+
+
+body {
+    margin:0;
+    padding:0;
+    color:      #990000;
+    background: #fff9ef url('/static/top-left.png') no-repeat;
+    font-family: LMRoman, georgia, new york,serif;
+    
+}
+
+html {
+    margin:0;
+    padding:0;
+}
+
+#wrap {
+    width:800px;
+    margin:0 auto;
+    background: none;
+}
+
+h1 {
+    margin:0;
+}
+
+#header {
+    background: none;
+    padding:5px 10px;
+    margin-top: 110px;
+    margin-left: 80px;
+    text-align: left;
+    
+}
+
+#content {
+    color: #990000;
+    /*color:      #fff9ef;*/
+    float: right;
+    width: 600px;
+    padding:10px;
+    margin: 20px 20px 20px 0px;
+}
+
+
+/* Side navigation bar */
+#sidebar {
+    /*background: #e6d8c0;*/
+    float: left;
+    width: 140px;
+    padding: 5px;
+    margin: 40px 0px 10px 0px;
+}
+
+#sidebar ul {
+    margin:0;
+    padding:0;
+    list-style:none;
+}
+
+#sidebar ul li {
+    background: #e6d8c0 url('/static/button.png') no-repeat;
+    background-position: center 7px;
+    filter:alpha(opacity=70);  opacity:0.7;
+    color:      #dd0000;
+    margin: 8px;
+    padding: 8px;
+    font: 10pt bold; 
+    text-align: center;
+}
+
+#sidebar ul li ul li {
+    background: none;
+    background-position: 10px center;
+    padding: 2px;
+    margin: 4px;
+}
+
+ a:link    { color: #0033aa; }
+ a:visited { color: #0033aa; }
+ a:active  { color: #990000; }
+ a:hover   { color: #cc0000; }
+
+#sidebar li a:link    { color: #dd0000; text-decoration: none; }
+#sidebar li a:visited { color: #dd0000; text-decoration: none; }
+#sidebar li a:active  { color: #dd0000; text-decoration: none; }
+#sidebar li a:hover   { color: #660000; text-decoration: none; }
+
+
+
+
+/* Footer */
+
+#footer {
+    background:#e6d8c0;
+    clear:both;
+    padding:5px 10px;
+}
+
+#footer p {
+    margin:0;
+}
+
+
+/* For a top navigation bar... */
+#nav {
+    background: #c99;
+}
+#nav ul {
+    margin:0;
+    padding:0;
+    list-style:none;
+}
+#nav li {
+    display:inline;
+    margin:0;
+    padding:0;
+}
+
+table.infotable tr, table.infotable td, table.infotable th {
+    margin:  0px;
+    padding: 4px;
+    border: 1px solid #e6d8c0;
+    background-color: #f6ece3;
+    color: #003399;
+    text-align: left;
+}
+
+table.infotable2 tr, table.infotable2 td, table.infotable2 th {
+    margin:  0px;
+    padding: 4px;
+    border: 2px solid #e6d8c0;
+    background-color: white;
+    color: black;
+    text-align: left;
+}
+
+.errorlist {
+    font: bold;
+    color: #ff0000;
+}
+
+.fieldWrapper {
+    display: block;
+    font-size: 10pt;
+    padding: 5px;
+}
+
+.fieldWrapper input[type="text"], .fieldWrapper textarea {
+    font-size: 12pt;
+    border: solid 1px #bb9999;
+    background: #fffcf9;
+}
+
+.fieldLabel {
+    color: #003399;
+    padding: 2px;
+    display: block;
+}
+
+.fieldWrapper ul {
+    list-style: none;
+    text-indent: -2em;
+}
+
+.formBox {
+    border: 1px #003399 solid;
+    padding: 10px;
+    margin: 20px 4px 20px 4px;
+    color: #003399;
+    text-align: left;
+}
+
+.formButton {
+    text-align: center;
+}
+
+.formButton input {
+    color: #003399;
+    background: #e6d8c0;
+    font-size: 14pt;
+    padding: 4px;
+}
+
+.formBox h4 {
+}
+
+.formBox h3 {
+    color:      #990000;
+    margin-top: 2px; 
+}
+
+.AttendingSelect {
+    onselect: 
+}
+
+
+.photo-controls {
+    text-align: center;
+    display: block;
+    padding: 5pt;
+    margin: 5pt;
+    background-color: #e6d8c0;
+}
+
+
+.photo-display {
+    text-align: center;
+    display: block;
+    padding: 5pt;
+    margin: 5pt;
+}
+
+.photo-gallery {
+    display: block;
+    padding: 10pt;
+    margin: 10pt;
+    background-color: #e6d8c0;
+}
+
+.gallery-photo {
+    display: inline;
+}
+
+.gallery-photo img {
+    padding: 4pt 4pt 4pt 4pt;
+    margin: 7pt;
+    background-color: #000000;    
+    display: inline;
+}
+

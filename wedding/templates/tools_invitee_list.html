@@ -1,0 +1,44 @@
+{% extends "base_tools.html" %}
+
+{% block title %}Alyssa and Ben's Wedding: Admin Report{% endblock %}
+
+{%block header %}<h1>Invitee List: {{filter}}</h1>{%endblock%}
+
+{% block content %}
+
+<table class="infotable">
+<tr>
+<th>#</th>
+<th width="20%">Invitee</th>
+<th># Guests</th>
+<th>Country</th>
+<th>State</th>
+<th>Send STD</th>
+<th width="30%">Address</th>
+<th width="10%">Invite Code</th>
+<th>Current RSVP</th>
+</tr>
+{% for inv in invitees %}
+<tr>
+  <td>{{ forloop.counter }}</td>
+  <td>{{ inv.full_name }}</td>
+  <td>{{ inv.guest_set.count}}</td>
+  <td>{{ inv.country }}</td>
+  <td>{{ inv.state }}</td>
+  <td>{{ inv.inviteenotes_set.get.savedate }}</td>
+  <td>{{ inv.full_address|linebreaksbr }}</td>
+  <td>{{ inv.invite_code }}</td>
+  <td>
+      {% for g in inv.guest_set.all %}
+      [{{ g.first_name }}:
+      {% for r in g.rsvp_set.all %}
+      {{ r.venue.site }}={{r.status}}{% endfor %}]
+      <br/>
+      {% endfor %}
+  </td>
+</td>
+</tr>
+{% endfor %}
+</table>
+
+{% endblock %}

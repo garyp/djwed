@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Alyssa and Ben's Wedding: Update Contact Info{% endblock %}
+{% block header %}<h1>Update Contact Information</h1>{% endblock %}
+
+{% block content %}
+
+{% include "return_to_rsvp.html" %}
+
+<form action="/profile/" method="post">
+
+<div class="formBox">
+<h4>General contact information:</h4>
+<div class="fieldWrapper">
+<div class="fieldLabel">Mailing Address:</div>
+<!-- {{ inv_form.full_address.label_tag }}-->
+{{ inv_form.full_address }}
+{{ inv_form.full_address.errors }}
+</div>
+</div>
+
+{{ guest_formset.management_form }}
+
+{% for form in guest_formset.forms %}
+  <div class="formBox">
+  <h4>Guest: {{form.instance.full_name}}</h4>
+  {% for field in form %}
+    {% if not field.is_hidden %}
+      <div class="fieldWrapper">    
+      <div class="fieldLabel">{{ field.label_tag }}
+      </div>
+      {{ field }}
+      {{ field.errors }}
+      </div>
+    {% endif %}
+  {% endfor %}
+  {% for hidden in form.hidden_fields %}
+      {{ hidden }}
+  {% endfor %}
+  </div>
+{% endfor %}
+
+<div class="formButton">
+<input type="submit" value="Save Changes" />
+</div>
+
+</form>
+
+{% include "privacy_common.html" %}
+
+{% endblock %}

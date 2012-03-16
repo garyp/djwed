@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Alyssa and Ben's Wedding: Add Guest Info{% endblock %}
+{% block header %}<h1>Request Adding a Guest</h1>{% endblock %}
+
+{% block content %}
+
+{% include "return_to_rsvp.html" %}
+
+<p>We'd obviously love for you to bring your spouse or partner along with
+you!  As space is limited at our venues, please feel free
+to <a href="mailto:ab@example.org">email us</a> prior to adding
+other guests.</p>
+
+<form action="/rsvp/addguest/" method="post">
+
+  <div class="formBox">
+  {% for field in form %}
+    {% if not field.is_hidden %}
+      <div class="fieldWrapper">    
+      <div class="fieldLabel">{{ field.label_tag }}
+      </div>
+      {{ field }}
+      {{ field.errors }}
+      </div>
+    {% endif %}
+  {% endfor %}
+  {% for hidden in form.hidden_fields %}
+      {{ hidden }}
+  {% endfor %}
+  </div>
+
+<div class="formButton">
+<input type="submit" value="Submit Request" />
+</div>
+
+</form>
+
+
+
+<hr style="margin-top: 6em;">
+
+<p style="font-size: 9pt;">Note that all contact information is stored on a computer system
+personally managed by us and will not be shared with any third parties.
+This information will be used primarily for mailing out invitations 
+and for contacting you in an emergency.</p>
+
+{% endblock %}

@@ -1,0 +1,118 @@
+{% extends "base_tools.html" %}
+
+{% block title %}Alyssa and Ben's Wedding: Guest Counts by Venue{% endblock %}
+
+{%block header %}<h1>Guest Counts by Venue</h1>{%endblock%}
+
+{% block content %}
+
+<table style="font-family: Verdana, Ariel, Sans;">
+  <tr>
+    {%for vr in venue_reports %}
+    <td valign="top" style="padding: 1em; border: 2px solid #990000;" width="50%">
+      <h2>Venue: {{vr.venue}}</h2>
+
+      <table class="infotable" style="font-size: 18pt;" >
+	<tr><td>Current Estimate</td><td><b>{{vr.current_estimate}}</b></td></tr>
+	<tr><td>Initial Estimate</td><td>{{vr.initial_estimate}}</td></tr>
+      </table>
+
+      <hr>
+
+      <table class="infotable">
+	<tr>
+	  <th>Status</th>
+	  <th>Responses</th>
+	  <th>Current EV</th>
+	  <th>Initial EV</th>
+	</tr>
+	{%for vsr in vr.report_by_status %}
+	<tr>
+	  <td>{{vsr.short_name}}</td>
+	  <td>{{vsr.rsvps.count}}</td>
+	  <td>{{vsr.current_ev}}</td>
+	  <td>{{vsr.initial_ev}}</td>
+	</tr>
+	{%endfor%}
+      </table>
+
+      {%for vsr in vr.report_by_status %}
+      <hr>
+      <table class="infotable">
+	<tr>
+	  <th>{{vsr.short_name}} ({{vsr.rsvps.count}})</th>
+	  {%ifequal vsr.short_name "Yes" %}
+	  <th>Food</th>
+	    {%ifequal vr.venue.site "MA" %}
+	    <th>Bus</th>
+	    {%endifequal%}
+	  {%endifequal%}
+	  {%ifequal vsr.short_name "No Information" %}
+  	    <th>EV</th>
+	  {%endifequal%}
+	  {%ifequal vsr.short_name "Viewed but Blank" %}
+	    <th>EV</th>
+	  {%endifequal%}
+	</tr>
+	{%if vsr.any_response %}
+
+	{%ifnotequal vsr.short_name "Viewed but Blank" %}
+	  {%for rsvp in vsr.rsvps %}	
+	  <tr>
+	    <td>{{rsvp.guest.full_name}}</td>
+
+	    {%ifequal vsr.short_name "Yes" %}
+	    <td>
+	      {%if rsvp.food_selection %}
+	      {{rsvp.food_selection}}
+	      {%endif%}
+	    </td>
+	    {%ifequal vr.venue.site "MA" %}
+ 	      <td>
+	        {%if rsvp.bus_selection %}
+	        {%ifequal rsvp.bus_selection "none" %}
+		   -
+ 	        {%endifequal%}
+	        {%ifnotequal rsvp.bus_selection "none" %}
+ 	          {{rsvp.bus_selection}}
+ 	        {%endifnotequal%}
+	        {%endif%}
+	      </td>	    
+	    {%endifequal%}
+           {%endifequal%}  {# Yes #}
+	  </tr>
+	  {%endfor%}
+
+	{%endifnotequal%} {# Viewed but Blank #}
+
+	{%endif%}
+
+	{%ifequal vsr.short_name "No Information" %}
+	{%for ni in vr.no_information %}
+	<tr>
+	  <td>{{ni.invitee}}</td>
+	  <td>{{ni.ev}}</td>
+	</tr>
+       {%endfor%}
+       {%endifequal%}
+
+	{%ifequal vsr.short_name "Viewed but Blank" %}
+	{%for ni in vr.viewed_but_blank %}
+	<tr>
+	  <td>{{ni.invitee}}</td>
+	  <td>{{ni.ev}}</td>
+	</tr>
+       {%endfor%}
+       {%endifequal%}
+
+
+      </table>
+      {%endfor%}
+
+    </td>
+
+    {%endfor%}
+  </tr>
+</table>
+
+{% endblock %}

@@ -1,0 +1,21 @@
+      {%for tbl in vr.tables_report %}
+      <table width="80%" class="infotable" style="font-size: 14pt;" >
+	<tr><th width="10%">Table #{{tbl.number}}</th>
+	  <th width="40%">{{tbl.food|safe}}</th>
+	  <th>("{{tbl.name}}")</th>
+	</tr>
+	{%for r in tbl.rsvps %}
+	<tr>
+	  <td>{{r.food_selection.food_name}}</td>
+	  <td>{{r.guest.full_name}}</td>
+	  <td>
+	    {%for frestrict in r.food_restrictions %}
+	    {{frestrict.text}}
+	    {%endfor%}
+	  </td>
+	</tr>
+	{%endfor%}
+      </table>
+      <br/>
+      <br/>
+      {%endfor%}

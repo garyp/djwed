@@ -1,0 +1,273 @@
+
+
+Package:      djWed 0.5
+Distribution: http://nygren.org/projects/djwed/
+Author:       Erik Nygren <erik+djwed@nygren.org> and soon *YOU*
+
+
+
+Introduction to djWed:
+----------------------
+
+The djWed package is personal web-based wedding management software
+written in the Python Django web framework.  This is a snapshot of
+code that I wrote for my own wedding in the fall of 2010, and is
+intended entirely as a starting point of code to evolve.  This
+software is not intended to be something that works out-of-the-box,
+but rather software that you can hack to do what you want.
+
+When writing software for your own wedding, one encounters a pleasant
+design constraint that is rarely encountered in software engineering:
+code designed to be used exactly once.  In fact, I intend to get married
+exactly once (now complete) and thus never use djWed ever again.
+
+This meant that I took many short-cuts that I might not have otherwise taken,
+but which made sense for expediency.  For example, generating mass emails
+or PDF/PS output from SVG templates is fairly awkward.  However, it didn't
+make sense for me to develop an elegant user experience for functions that
+would be executed exactly once by just one person.  Similarly, I hard-coded
+in that I'd have two wedding and reception venues ("MA" and "CA") as that
+simplified some code.
+
+However, now that our wedding is finished, some friends have asked to
+use this code.  As such, it is now up to you, if you so choose, to
+take this code as a starting point and to evolve it to match your
+needs.  You'll encounter many bugs, hacks, quirks, and perhaps even
+a few squirrels.  You are welcome to do the same as I did and adapt
+the code for your single use, or you can do cleanup to generalize this
+software so that it could more readily be used by others.
+
+You can see our website at http://wedding.eriksu.org/
+
+
+To get your feet wet, the included sample database should allow you to
+try out this software on a local Linux machine after you make some
+changes to settings.py by using "manage.py runserver" and then
+connecting to localhost, but before you install it on a webserver.
+More details are below...
+
+
+Features:
+---------
+
+* Track guests and invitees (where each invitee may consist of multiple guests).
+* Each invitee has an "invite code" that they can use to login.
+* Invitees can update their contact information and leave comments.
+* Invitees can RSVP and select meals and other options.
+* Send mass emails to invitees with form-filling.
+* Web-based reports on RSVPs, meal selections, and more.
+* Spreadsheet exports of reports.
+* Gift and thank-you note tracking.
+* Generate mailing labels for invitees.
+* Table assignment tracking (but no automated table-assignments).
+* Multiple venue support (currently hard-coded at two venues in some places).
+* Integrated photo gallery using a modified version of Photologue that lets
+  guests upload their photos.
+* Web-based editing of informational pages (HTML "page snippets").
+* Initial import of guest information from a CSV spreadsheet.
+* Generation of printed materials from SVG templates, including:
+  - Save-the-date cards with RSVP invite codes.
+  - Personalized place cards (even including food selection)
+  - Personalized RSVP cards 
+  - Personalized envelopes with artwork
+
+
+Initial setup:
+--------------
+
+* Install Django and other appropriate packages.  At least some 
+  of the packages you'll need (tested with Ubuntu Lucid) include:
+
+      python-django           (tested with 1.1.1-2ubuntu1.3)
+      python-django-tagging
+      inkscape                (tested with 0.47.0-2ubuntu2)
+      python-imaging
+      python-reportlab
+      python-excelerator
+
+  (It is very possible that I missed some when putting this list together)
+
+* Go through settings.py and make any necessary changes to file 
+  paths, keys, etc.  
+
+* Note that there's an example database provided in data/weddingdata-test.sqlite
+  that should allow you to get started seeing if things even run.  You can start
+  the sample server with:
+
+       ./manage.py runserver 
+
+* To create/initialize the database from scratch and setup admin user, move
+  the data/weddingdata-test.sqlite file aside then run:
+
+      ./manage.py syncdb
+
+  (The example database provided uses the user "aphacker" with password "passw0rd")
+
+* Startup the sample webserver in your staging environment with:
+
+       ./manage.py runserver 
+
+  then connect to the admin interface at:   http://127.0.0.1:8000/admin/
+
+  (Note that you'll need to reload the login page due to a weirdness
+  with CRSF protection which I've never bothered to fix.)
+
+* Within the admin interface you may want to:
+
+  - In the admin interface under Auth/Users, create a username for your fiance as well.
+
+  - Under Wedding/PageSnipetts, you'll need to create some pages with specified names.
+    In particular, small HTML page snippets with keys such as:
+        
+    	splash	   	 - Text for the top-level splash page
+	photos
+	faq
+	gifts
+	about-us
+	MA/todo
+	MA/lodging
+	MA/lodging-codes
+	MA/directions
+	CA/todo
+
+   (until you create the splash page, http://127.0.0.1:8000/ will fail to load)
+   
+   - Create a venue under Wedding/Venue.  (Unless you change things in code,
+     sites must be "MA" and "CA").  Food options should have short descriptions
+     of the form "MA:beef" and "MA:chicken" and "MA:veg".
+
+  - Create some Invitees.  Each invitee may consist of multiple guests.
+    (You can add some additional information per-invitee with an "Invitee Notes" object.)
+    Invitee codes should be of the form ABC-123  (six alphanumeric characters).
+
+  - There's some code to import Invitees and Guests 
+    from a CSV spreadsheet in wedding/google_import.py
+
+  - Once you have things working, you can also see more admin tools here:
+
+  	http://127.0.0.1:8000/tools/
+
+    from here you can generate mailing labels, reports, spreadsheets, and more.
+
+  - An example guest in the database has invitee code "555-555"
+
+
+* Go through the code and change cases of email addresses and text
+  that are hard-coded in.  (For example, search for "example.org"
+  and "Ben" and "Alyssa" and "September" and "October".)
+
+  It may be helpful to do some of the replacing in batches,
+  such as with:
+
+     perl -pi -e 's/Ben Bitdiddle/My Real Name/' wedding/templates/*.html
+
+ 
+* You likely want to change the colors, background image, etc 
+  in media/style.css to be to your linking.
+
+
+* On your production webserver install "libapache2-mod-wsgi" 
+  then enable the wsgi module with "a2enmod wsgi".
+  See "apache-siteconfig-example.conf" as an example site configuration
+  (to go in /etc/apache2/sites-available).
+  You'll also need to update paths in "django.wsgi"
+
+  You should make sure that the database files aren't in a path that can be downloaded.
+
+
+
+Various Notes
+-------------
+
+Various things you can do:
+
+* Open up the shell to perform operations on objects:
+
+      % ./manage.py shell
+      >>> from djwed.wedding.models import *
+      >>> RSVP.objects.filter(venue="MA",status="y").order_by("guest__last_name")
+      >>> Guest.objects.all().order_by("last_name")
+
+
+* Create an email template in the wedding/templates/email_*.{txt,html}
+  and then use the django shell to send it out:
+
+      % ./manage.py shell
+      >>> from djwed.wedding.email import *
+      >>> email_all_invitees("email_save_the_date.txt",
+                             """Save the Date for Our Wedding!""",
+                             send=False)
+      >>> email_invitee("email_save_the_date.txt", 
+	                """Save the Date for Our Wedding!""",
+	                Invitee.objects.get(invite_code="555-555"))
+
+* Example of getting a report of who is riding the bus:
+
+     from djwed.wedding.models import *
+     for r in RSVP.objects.filter(venue="MA",status="y").order_by("guest__last_name"):
+       if not r.bus_selection or r.bus_selection = "none":
+         print "%s,%s"%(r.guest.full_name(),r.bus_selection)     
+
+* Some of the scripts in "bin" are ones I used to backup the database
+  as well as to sync out new versions of the code with a backup beforehand.
+
+
+Other random notes:
+
+* I strongly encourage you to read up on Django and go through its tutorials
+  separately before diving in and getting started here.
+
+* Before starting, familiarize yourself with the data model in wedding/models.py.
+  Some of the most important aspects are:
+
+       An "Invitee" has an invite_code and is tied to one or more "Guests".
+       Address information is associated with Invitees, and you can think
+       of Invitees as a set of guests living together.
+
+       A "Guest" corresponds to a person with a name and email address.
+
+       Each "RSVP" is tied to exactly one "Guest" and one "Venue".
+
+
+* This code was intended to be used for a wedding with two "venues": a
+  wedding and reception in Massachusetts ("MA") and a second reception
+  in California ("CA").  This assumption is heavily hard-coded into
+  many places.
+
+* This package was originally called "eriksu" when I was developing
+  it, but I've renamed it to "djwed".  I may have missed some places.
+
+* Generating printed materials from Inkscape doesn't yet work headless.
+  In order to get this to work, copy the production sqlite db locally
+  and then run djwed on a desktop with X11.  (Something future would
+  be to give Inkscape a fake headless X-server for it to use, although
+  some gnome bits also seem to come into play.)
+
+* Printed materials are generated from SVG files created in Inkscape,
+  but then annotated with django form processing directives.  If you
+  edit them in Inkscape, you may need to re-add the processing
+  directives.
+
+
+Notes for changes you may wish to make:
+
+* I'm still using the older (and somewhat flakey) Django CSRF
+  middleware functionality which has been replaced in newer version.
+
+* Create a better web interface for sending mass emails.
+
+
+
+
+Included Software
+-----------------
+
+This code snapshot contains code and materials taken and adapted from
+a number of sources under different licenses:
+
+* django templates and example code
+* exif-py (http://sourceforge.net/projects/exif-py/)
+* photologue
+
+
+
