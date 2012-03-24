@@ -71,9 +71,33 @@ class RSVPAdminForm(forms.ModelForm):
 class RSVPAdmin(admin.ModelAdmin):
     #inlines = [GuestInline,]
     #food_selection = LongFoodChoiceField([], required=False, empty_label = "--- Please choose from a dinner selection below ---")    
-    list_display = ('guest_site', 'venue', 'status', 'food_selection', 'bus_selection', 'last_updated', 'prelim', 'guest_invitee','last_update_source','guest','table_assign',)
-    search_fields = ['guest__first_name', 'guest__last_name', 'guest__invitee__guest__last_name','guest__invitee__invite_code']
-    list_editable = ('status', 'food_selection', 'bus_selection', 'prelim','last_update_source','table_assign')
+    list_display = (
+            'guest_site',
+            'venue',
+            'status',
+            'food_selection',
+            'bus_selection',
+            'last_updated',
+            'prelim',
+            'guest_invitee',
+            'last_update_source',
+            'guest',
+            'table_assign',
+            )
+    search_fields = [
+            'guest__first_name',
+            'guest__last_name',
+            'guest__invitee__guest__last_name',
+            'guest__invitee__invite_code',
+            ]
+    list_editable = (
+            'status',
+            'food_selection',
+            'bus_selection',
+            'prelim',
+            'last_update_source',
+            'table_assign'
+            )
     form = RSVPAdminForm
     list_filter = ('venue','status')
 
@@ -99,10 +123,19 @@ class RSVPAdmin(admin.ModelAdmin):
 class InviteeNotesAdmin(admin.ModelAdmin):
     search_fields = ['invitee__guest__first_name',
                      'invitee__guest__last_name','invitee__guest__nickname']
-    list_display = [ 'invitee', 'likely_site', 'ma_likelihood',
-                     'ca_likelihood',   'invitee_rsvp_count',
-                     'adults', 'children', 'invitee_country' ]
-    list_editable = ['ma_likelihood', 'ca_likelihood',]
+    list_display = [ 'invitee',
+                     'likely_site',
+                     'ma_likelihood',
+                     'ca_likelihood',
+                     'or_likelihood',
+                     'invitee_rsvp_count',
+                     'adults',
+                     'children',
+                     'invitee_country',
+                     ]
+    list_editable = ['ma_likelihood',
+                     'ca_likelihood',
+                    ]
 
     def invitee_rsvp_count(self,inote):
         return str(inote.invitee.rsvp_yes_counts())
