@@ -27,7 +27,7 @@ urlpatterns = patterns('',
 
     (r'^(?P<key>(about-us|gifts|faq|photos))/$', 'djwed.wedding.views.pagesnippet' ),
     (r'^(?P<key>(video/[a-zA-Z0-9-_.]*))/?$', 'djwed.wedding.views.pagesnippet', { 'template': 'pagesnippet-video.html', 'login_required': True } ),
-    (r'^venue/(?P<key>(MA|CA)/([A-Za-z0-9-]+))/$', 'djwed.wedding.views.pagesnippet' ),
+    (r'^venue/(?P<key>([A-Za-z0-9]+)/([A-Za-z0-9-]+))/$', 'djwed.wedding.views.pagesnippet' ),
 
     # Admin Tools...                       
     (r'^tools/responses/(?P<filter>[a-z0-9A-Z-]*)/?$', 'djwed.wedding.views.tools_report',
