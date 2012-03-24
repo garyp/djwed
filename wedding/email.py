@@ -1,13 +1,11 @@
 # Create your views here.
 
+from django.conf import settings
 from django.template import Context, loader
 from djwed.wedding.models import *
 from datetime import datetime
 from django.core.mail import send_mail, mail_managers, EmailMessage, EmailMultiAlternatives
 import smtplib
-
-
-from_email = "Ben Bitdiddle and Alyssa P Hacker <ab@example.org>"
 
 
 def email_invitee(template, subject, invitee, send=False, html_template=None, attach_file=None):
@@ -20,6 +18,7 @@ def email_invitee(template, subject, invitee, send=False, html_template=None, at
         print "No email addresses for guests of "+str(invitee)
         return
     body = loader.render_to_string(template, { 'invitee': invitee })
+    from_email = '%s <%s>' % settings.FROM_EMAIL
     email = EmailMultiAlternatives(subject, body, from_email, recipients, bcc=())
     if html_template:
         html_body = loader.render_to_string(html_template, { 'invitee': invitee })
@@ -42,15 +41,21 @@ def email_all_invitees(template, subject, send=False):
         email_invitee(template, subject, inv, send=send)
 
 
-def email_save_the_date(send=False, recipient="ab@example.org"):
+def email_save_the_date(send=False, recipient=None):
+    if recipient is None:
+        recipient = settings.FROM_EMAIL[1]
     email_with_template(send, recipient, template_prefix="email_save_the_date",
                         subject="""Save the Date for Our Wedding!""")
 
-def email_website_update_1(send=False, recipient="ab@example.org"):
+def email_website_update_1(send=False, recipient=None):
+    if recipient is None:
+        recipient = settings.FROM_EMAIL[1]
     email_with_template(send, recipient, template_prefix="email_website_update",
                         subject="""Updates on Our upcoming wedding and receptions""")
 
-def email_with_template(send=False, recipient="ab@example.org", template_prefix="", subject="Updates for our upcoming wedding and receptions"):
+def email_with_template(send=False, recipient=None, template_prefix="", subject="Updates for our upcoming wedding and receptions"):
+    if recipient is None:
+        recipient = settings.FROM_EMAIL[1]
     invitees = []    
     #if test_to == "us":
     #    invitees = Invitee.objects.filter(invite_code="555-555")
