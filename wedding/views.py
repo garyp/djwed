@@ -303,7 +303,7 @@ class PhotoGalleryUploadForm(ModelForm):
 
 @login_required
 def photo_gallery_upload(request):
-    if request.user.is_staff: return HttpResponseRedirect('/accounts/login/?next=/photos/')        
+    if request.user.is_staff: return HttpResponseRedirect('/accounts/login/?next=/photos/')
     inv = user_to_invitee(request.user)
     if request.method == 'POST':
         form = PhotoGalleryUploadForm(inv, request.POST, request.FILES)
