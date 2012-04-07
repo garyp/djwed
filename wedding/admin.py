@@ -67,7 +67,7 @@ class RSVPAdminForm(forms.ModelForm):
             raise ValidationError('Only one RSVP allowed per person')            
         return sret
 
-    
+
 class RSVPAdmin(admin.ModelAdmin):
     #inlines = [GuestInline,]
     #food_selection = LongFoodChoiceField([], required=False, empty_label = "--- Please choose from a dinner selection below ---")    
@@ -195,6 +195,14 @@ class TableAdmin(admin.ModelAdmin):
     table_count.short_description = "guests"
 
 
+class RSVPOptionAdmin(admin.ModelAdmin):
+    list_display = ['short_desc', 'likelihood', 'rsvp_count', 'long_desc']
+
+    def rsvp_count(self, option):
+        return str(option.rsvp_set.count())
+    rsvp_count.short_description = "# people"
+
+
 admin.site.register(Invitee, InviteeAdmin)
 
 admin.site.register(InviteeNotes, InviteeNotesAdmin)
@@ -206,6 +214,8 @@ admin.site.register(Venue, VenueAdmin)
 admin.site.register(PageSnippet, PageSnippetAdmin)
 
 admin.site.register(RSVP, RSVPAdmin)
+
+admin.site.register(RSVPOption, RSVPOptionAdmin)
 
 admin.site.register(Comment, CommentAdmin)
 

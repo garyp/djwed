@@ -185,7 +185,7 @@ Various things you can do:
 
       % ./manage.py shell
       >>> from djwed.wedding.models import *
-      >>> RSVP.objects.filter(venue="MA",status="y").order_by("guest__last_name")
+      >>> RSVP.objects.filter(venue="MA",status__in=RSVPOption.objects.yes()).order_by("guest__last_name")
       >>> Guest.objects.all().order_by("last_name")
 
 
@@ -204,7 +204,7 @@ Various things you can do:
 * Example of getting a report of who is riding the bus:
 
      from djwed.wedding.models import *
-     for r in RSVP.objects.filter(venue="MA",status="y").order_by("guest__last_name"):
+     for r in RSVP.objects.filter(venue="MA",status__in=RSVPOption.objects.yes()).order_by("guest__last_name"):
        if not r.bus_selection or r.bus_selection = "none":
          print "%s,%s"%(r.guest.full_name(),r.bus_selection)     
 

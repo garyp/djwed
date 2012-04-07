@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Q
 from django.core.exceptions import ValidationError,ObjectDoesNotExist
 import datetime
 from django.contrib.auth.models import User, check_password
@@ -123,9 +124,8 @@ class Invitee(models.Model):
     def rsvp_yes_counts(self):
         venue_counts = { 'MA': 0,  'CA': 0 }
         for g in self.guest_set.all():
-            for r in g.rsvp_set.all():
-                if r.status == u'y':
-                    venue_counts[r.venue.site] += 1
+            for r in g.rsvp_set.filter(status__in=RSVPOption.objects.yes()):
+                venue_counts[r.venue.site] += 1
         return venue_counts
 
     def rsvp_any_unresponded(self):
@@ -133,9 +133,9 @@ class Invitee(models.Model):
         for g in self.guest_set.all():
             if g.rsvp_set.count() == 0:
                 any = True
-            for r in g.rsvp_set.all():
-                if not r.status or r.status == u"m" or r.status == u"-":
-                    any = True
+            for r in g.rsvp_set.filter(Q(status__isnull=True)
+                    | Q(status__in=RSVPOption.objects.undecided())):
+                any = True
         return any        
 
     def rsvp_yes_text(self):
@@ -155,7 +155,7 @@ class Invitee(models.Model):
         missing = False
         for g in self.guest_set.all():
             for r in g.rsvp_set.all():
-                if (r.status == u'y' or r.status == u'm') and not r.food_selection:
+                if (r.yes_or_maybe() and not r.food_selection):
                     missing = True
         return missing
         
@@ -276,7 +276,7 @@ class Guest(models.Model):
             (r,created) = self.rsvp_set.get_or_create(venue=v)
             if created:
                 r.prelim = True
-                r.status = '-'
+                r.status = None
                 r.save()
             rsvps.append(r)
         return rsvps
@@ -299,35 +299,38 @@ class FoodOption(models.Model):
     def __unicode__(self):
         return self.short_desc
 
+class RSVPOptionManager(models.Manager):
+    def yes(self):
+        return self.get_query_set().filter(likelihood=100)
+    def no(self):
+        return self.get_query_set().filter(likelihood=0)
+    def undecided(self):
+        return self.get_query_set().exclude(likelihood__in=(0, 100))
+
+class RSVPOption(models.Model):
+    objects = RSVPOptionManager()
+    short_desc = models.CharField(max_length=30)
+    long_desc  = models.CharField(max_length=300)
+    likelihood = models.PositiveIntegerField()
+
+    @property
+    def yes(self):
+        return self.likelihood == 100
+
+    @property
+    def no(self):
+        return self.likelihood == 0
+
+    @property
+    def undecided(self):
+        return self.likelihood not in (0, 100)
+
+    def __unicode__(self):
+        return self.short_desc
+
 class NoRSVPInfo(Exception): pass
 
 class RSVP(models.Model):
-    STATUS_CHOICES = (
-        (u'y', u'Yes'),
-        (u'n', u'No: Decline'),
-        (u'o', u'No: Other Site'),
-        (u'm', u'Maybe'),
-        (u'v', u'Maybe: Need Visa'),
-        )
-    status_long_names = (
-        (u'-', u'-- Please indicate whether you will be attending --'),
-        (u'y', u'Yes: Attending with pleasure'),
-        (u'n', u'No: Decline with regret'),
-        (u'o', u'No: Will not be attending at this location as the other is more convenient'),
-        (u'm', u'Maybe: Undecided at this time'),
-        (u'v', u'Maybe: Would love to attend and plan to apply for US travel visa'),
-        )
-
-    status_summary_names = {
-        u'y': u'Yes',
-        u'n': u'No',
-        u'v': u'Needs Visa',
-        u'm': u'Maybe',
-        u'o': u'No (Other)',
-        u'-': u'Viewed but Blank',
-        u'--': u'No Information',
-        }
-
     BUS_CHOICES = (
         (u'none', u'None requested'),
         (u'both', u'Both directions'),
@@ -353,8 +356,7 @@ class RSVP(models.Model):
     guest = models.ForeignKey(Guest)
     venue = models.ForeignKey(Venue)
     prelim = models.BooleanField("Preliminary")
-    status = models.CharField(max_length=1, choices=STATUS_CHOICES)
-    # Will eventually have food and other choices as well
+    status = models.ForeignKey(RSVPOption, null=True)
     food_selection = models.ForeignKey(FoodOption, null=True, blank=True)
     last_updated = models.DateTimeField(auto_now=True)
     last_update_source = models.CharField(max_length=8, choices=SOURCE_CHOICES, null=True, blank=True)
@@ -369,7 +371,7 @@ class RSVP(models.Model):
         #print RSVP.objects.filter(venue=self.venue, guest=self.guest).count()
         if self.food_selection and self.food_selection.venue != self.venue:
             raise ValidationError('Food selected from another venue')
-        if self.status in (u'u',u'n'):
+        if self.food_selection and not (self.status and self.status.yes):
             raise ValidationError('Food option selected but not attending')
         if self.bus_selection and self.venue.site != u"MA":
             raise ValidationError('Bus selection for a site with no bus')        
@@ -383,22 +385,14 @@ class RSVP(models.Model):
         #return super(RSVP, self).clean(self)
 
     def responded(self):
-        return self.status in (u'y',u'm',u'v',u'n',u'o')
+        return self.status is not None
 
     def yes_or_maybe(self):
-        return self.status in (u'y',u'm',u'v')
+        return self.status and not self.status.no
 
     def likelihood(self):
-        if self.status == u'y':
-            return 1.0
-        elif self.status == u'm':
-            return 0.2
-        elif self.status == u'o':
-            return 0.0
-        elif self.status == u'v':
-            return 0.4
-        elif self.status == u'n':
-            return 0.0
+        if self.status:
+            return (self.status.likelihood/100.)
         else:
             raise NoRSVPInfo("No RSVP info for guest")
 

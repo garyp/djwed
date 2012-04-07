@@ -67,8 +67,7 @@ def pagesnippet(request, key, template='pagesnippet.html', login_required=False)
 #        model = RSVP
 #        fields = ('status',)
 
-class FoodChoiceField(forms.ModelChoiceField):
-    #widget = forms.widgets.RadioSelect()
+class ModelChoiceFieldLong(forms.ModelChoiceField):
     def label_from_instance(self, obj):
         return obj.long_desc
 
@@ -76,14 +75,20 @@ class FinalRSVPForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(FinalRSVPForm, self).__init__(*args, **kwargs)
+        self.fields['status'].queryset = RSVPOption.objects.all().order_by('-likelihood')
         self.fields['food_selection'].queryset = FoodOption.objects.filter(venue=self.instance.venue)
 
-    status = forms.ChoiceField(RSVP.status_long_names,
-                               widget=forms.Select(attrs={'onchange':'rsvpHideIfNotAttendingSelect(this);'}))
+    status = ModelChoiceFieldLong([],
+            empty_label="-- Please indicate whether you will be attending --",
+            widget=forms.Select(attrs={
+                'onchange':'rsvpHideIfNotAttendingSelect(this);'
+                })
+            )
 
     bus_selection = forms.ChoiceField(RSVP.bus_choice_long_names, required=False)
-    food_selection = FoodChoiceField([], required=False,
-                                     empty_label = "--- Please choose from a dinner selection below ---")
+    food_selection = ModelChoiceFieldLong([], required=False,
+            empty_label="--- Please choose from a dinner selection below ---"
+            )
     class Meta:
         model = RSVP
         fields = ('status','food_selection','bus_selection')
@@ -452,7 +457,7 @@ def tools_export(request, filter="all-invitees", rowset="invitee", columns=None)
         ss.add_column("nickname", 30)
         ss.add_column("email", 70)       
         ss.add_column("home_phone", 50)       
-        for r in RSVP.objects.filter(venue="MA",status="y").order_by("bus_selection","guest__last_name"):
+        for r in RSVP.objects.filter(venue="MA", status__in=RSVPOption.objects.yes()).order_by("bus_selection","guest__last_name"):
             if not r.bus_selection or r.bus_selection == "none": continue
             #print "%s,%s,%s,%s"%(r.guest.full_name(),r.bus_selection,r.guest.cell_phone,r.guest.home_phone)	        for g in guests
             direction=r.bus_selection
@@ -520,7 +525,10 @@ class VenueStatusReport:
         self.status = status
 
     def short_name(self):
-        return RSVP.status_summary_names[self.status]
+        if self.status:
+            return self.status.short_desc
+        else:
+            return 'No Information'
 
     def guests(self):
         if self.any_response():
@@ -535,10 +543,10 @@ class VenueStatusReport:
             return Guest.objects.exclude(rsvp__venue=self.vr.venue)
 
     def any_response(self):
-        return self.status in (u'y',u'n',u'o',u'v',u'm',u'-')
+        return self.status is not None
 
     def current_ev(self):
-        if self.any_response() and self.status != u'-':
+        if self.any_response():
             return sum(map(lambda rsvp: rsvp.guest.venue_likelihood(self.vr.venue),
                            self.rsvps()))
         else:
@@ -554,11 +562,10 @@ class VenueStatusReport:
         
         
 class VenueReport:
-    status_values = (u'y',u'v',u'm',u'o',u'n',u'-',u'--')
     def __init__(self, site):
         self.venue = Venue.objects.get(site=site)
-        self.report_by_status = []
-        for sv in self.status_values:
+        self.report_by_status = [VenueStatusReport(self, None),]
+        for sv in RSVPOption.objects.all().order_by('likelihood'):
             self.report_by_status.append(VenueStatusReport(self, sv))
         self.no_information = []
         for inote in InviteeNotes.objects.exclude(invitee__guest__rsvp__venue=self.venue):
@@ -567,7 +574,7 @@ class VenueReport:
         self.viewed_but_blank = []
         self.vbb_found = {}
         for inote in InviteeNotes.objects.filter(invitee__guest__rsvp__venue=self.venue,
-                                                 invitee__guest__rsvp__status=u'-'):
+                                                 invitee__guest__rsvp__status=None):
             if not self.vbb_found.has_key(inote.invitee):
                 self.viewed_but_blank.append({'invitee': inote.invitee.full_name(),
                                               'ev': inote.venue_ev(self.venue) })
@@ -581,7 +588,7 @@ class VenueReport:
     def food_report(self):
         food_counts = []
         food_selected = {}
-        for r in self.venue.rsvp_set.filter(status=u'y'):
+        for r in self.venue.rsvp_set.filter(status__in=RSVPOption.objects.yes()):
             food = "unknown"
             if r.food_selection:
                 food = r.food_selection.short_desc
@@ -594,7 +601,7 @@ class VenueReport:
     def bus_report(self):
         bus_counts = []
         bus_selected = {}
-        for r in self.venue.rsvp_set.filter(status=u'y'):
+        for r in self.venue.rsvp_set.filter(status__in=RSVPOption.objects.yes()):
             bus = "unknown"
             if r.bus_selection:
                 bus = r.bus_selection
@@ -612,7 +619,7 @@ class VenueReport:
             tindex[t] = ti
             tables.append(ti)
             #print ti
-        for r in self.venue.rsvp_set.filter(status=u'y').order_by("food_selection","guest__last_name"):
+        for r in self.venue.rsvp_set.filter(status__in=RSVPOption.objects.yes()).order_by("food_selection","guest__last_name"):
             if r.table_assign:
                 ti = tindex[r.table_assign]
                 ti['rsvps'].append(r)
@@ -694,7 +701,7 @@ def make_svg(request, filter=None, n_up=4, template=None, venue_site=None, forma
     elif filter == 'test':
         inv_set = guest_filter.test_invitees()
     elif filter == 'rsvp_yes':
-        rsvps = RSVP.objects.filter(venue=venue_site, status=u'y').order_by('guest__last_name','guest__first_name')
+        rsvps = RSVP.objects.filter(venue=venue_site, status__in=RSVPOption.objects.yes()).order_by('guest__last_name','guest__first_name')
         inv_set = []
         for r in rsvps:
             inv_set.append(r)

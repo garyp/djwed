@@ -22,8 +22,9 @@ def all_guests():
 
 def yes_invitees(venue="MA"):
     invitees = []
-    for r in RSVP.objects.filter(status="y",venue=venue):
-        if r.guest.invitee not in invitees:
+    for r in RSVP.objects.filter(venue=venue,
+            status__in=RSVPOption.objects.yes()):
+        if (r.guest.invitee not in invitees):
             invitees.append(r.guest.invitee)
     return invitees
 
