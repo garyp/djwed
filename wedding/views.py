@@ -191,7 +191,7 @@ def thankyou(request):
 @login_required
 def comment(request, ctype=u"general"):
     if request.user.is_staff: return HttpResponseRedirect('/accounts/login/')        
-    if not ctype in map(lambda x: x[0], Comment.COMMENT_TYPES):
+    if not ctype in [x[0] for x in Comment.COMMENT_TYPES]:
         ctype = u"general"
     inv = user_to_invitee(request.user)
     inv.mark_visited()
@@ -547,18 +547,19 @@ class VenueStatusReport:
 
     def current_ev(self):
         if self.any_response():
-            return sum(map(lambda rsvp: rsvp.guest.venue_likelihood(self.vr.venue),
-                           self.rsvps()))
+            return sum(rsvp.guest.venue_likelihood(self.vr.venue)
+                       for rsvp in self.rsvps())
         else:
             return self.initial_ev()
 
     def initial_ev(self):
         if self.any_response():
-            return sum(map(lambda rsvp: rsvp.guest.original_venue_ev(self.vr.venue),
-                           self.rsvps()))
+            return sum(rsvp.guest.original_venue_ev(self.vr.venue)
+                       for rsvp in self.rsvps())
         else:
-            return sum(map(lambda inote: inote.venue_ev(self.vr.venue),
-                           InviteeNotes.objects.exclude(invitee__guest__rsvp__venue=self.vr.venue)))
+            return sum(inote.venue_ev(self.vr.venue)
+                       for inote in
+                       InviteeNotes.objects.exclude(invitee__guest__rsvp__venue=self.vr.venue))
         
         
 class VenueReport:
@@ -581,9 +582,10 @@ class VenueReport:
                 self.vbb_found[inote.invitee] = 1
 
     def current_estimate(self):
-        return sum(map(lambda g: g.venue_likelihood(self.venue), Guest.objects.all()))
+        return sum(g.venue_likelihood(self.venue) for g in Guest.objects.all())
     def initial_estimate(self):
-        return sum(map(lambda inote: inote.venue_ev(self.venue), InviteeNotes.objects.all()))
+        return sum(inote.venue_ev(self.venue)
+                   for inote in InviteeNotes.objects.all())
 
     def food_report(self):
         food_counts = []
