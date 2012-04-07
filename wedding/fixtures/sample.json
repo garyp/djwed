@@ -1,0 +1,356 @@
+[
+  {
+    "pk": "splash",
+    "model": "wedding.pagesnippet",
+    "fields": {
+      "html": "<p>Alyssa and Ben will be <a href=\"/venue/MA/\">married at the Peabody Essex Museum in Salem, MA on Sunday September 26, 2258</a>.</p>\r\n\r\n<img src=\"/static/us.jpg\" border=\"0\">\r\n",
+      "last_updated": "2011-04-30 18:05:24",
+      "title": "Alyssa and Ben's wedding!"
+    }
+  },
+  {
+    "pk": "about-us",
+    "model": "wedding.pagesnippet",
+    "fields": {
+      "html": "<a href=\"http://everything2.com/title/Alyssa+P.+Hacker\">Alyssa and Ben</a> met at MIT while taking 6.001 together.  The rest is history!\r\n",
+      "last_updated": "2011-04-30 17:34:25",
+      "title": "About Alyssa and Ben"
+    }
+  },
+  {
+    "pk": "photos",
+    "model": "wedding.pagesnippet",
+    "fields": {
+      "html": "<p>Below are photographs of us and the wedding:</p>\r\n\r\n<ul>\r\n<li>Photos taken by guests (some require login with invite code)\r\n<ul>\r\n<li><a href=\"/photologue/gallery/\"><b>Photos taken by other guests</b></a></li>\r\n<li><a href=\"/photologue/gallery/photobooth/\">Photobooth photos from Salem</a> </li>\r\n<li><a href=\"/photos/upload/\">Upload photos you took!</a></li>\r\n</ul>\r\n",
+      "last_updated": "2011-04-30 17:34:59",
+      "title": ""
+    }
+  },
+  {
+    "pk": "gifts",
+    "model": "wedding.pagesnippet",
+    "fields": {
+      "html": "<p>Your friendship and good wishes are the best gifts that we could hope to receive.\r\nWe would be particularly honored if you are able to share our special day with us.</p>\r\n\r\n<p>In lieu of gifts, donations to charities in celebration of our marriage\r\nare appreciated.  Donations are particularly appreciated in the fields of cancer research, wilderness preservation, and computer science.</p>",
+      "last_updated": "2011-04-30 17:36:05",
+      "title": "Gifts for Alyssa and Ben..."
+    }
+  },
+  {
+    "pk": "faq",
+    "model": "wedding.pagesnippet",
+    "fields": {
+      "html": "<h3>What is the recommended attire for the wedding and receptions?</h3>\r\n\r\n<p>Clothes are strongly encouraged.</p>\r\n",
+      "last_updated": "2011-04-30 17:36:54",
+      "title": "Frequently asked questions"
+    }
+  },
+  {
+    "pk": "MA",
+    "model": "wedding.venue",
+    "fields": {
+      "city": "Salem",
+      "name": "Peabody Essex Museum",
+      "url": "http://www.pem.org/",
+      "when_date": "2258-09-26",
+      "state": "MA",
+      "html": "<p>Our wedding and reception will be at the <a href=\"http://www.pem.org/\">Peabody Essex Museum</a> in Salem, MA on Sunday, September 26, 2258.</p>\r\n\r\n\r\n<p>More information:</p>\r\n<ul>\r\n<li><a href=\"lodging/\">Hotels and lodging</a></li>\r\n<li><a href=\"todo/\">Things to do in the area</a></li>\r\n<li><a href=\"directions/\">Transportation and directions to the wedding</a></li>\r\n\r\n</ul>\r\n",
+      "type": "Wedding and Reception"
+    }
+  },
+  {
+    "pk": "CA",
+    "model": "wedding.venue",
+    "fields": {
+      "city": "Sausalito",
+      "name": "Spinnaker",
+      "url": "http://www.thespinnaker.com/",
+      "when_date": "2258-10-17",
+      "state": "CA",
+      "html": "<p>There will be a dinner reception at the <a href=\"http://www.thespinnaker.com/\">Spinnaker Restaurant</a> in Sausalito, CA on Sunday, October 17, 2010.  More details will follow.</p>\r\n\r\n<p>The preliminary schedule is:</p>\r\n\r\n<ul>\r\n\r\n<li>4:00pm - Cocktail reception</li>\r\n<li>5:30pm to 10pm- Dinner and dancing</li>\r\n</ul>\r\n\r\n\r\n<p>More information:</p>\r\n<ul>\r\n<li><a href=\"lodging/\">Hotels and lodging</a></li>\r\n<li><a href=\"todo/\">Things to do in the area</a></li>\r\n<li><a href=\"directions/\">Directions to the reception</a></li>\r\n\r\n</ul>",
+      "type": "Reception"
+    }
+  },
+  {
+    "pk": 1,
+    "model": "wedding.invitee",
+    "fields": {
+      "last_updated": "2011-04-30 17:47:40",
+      "private_notes": "",
+      "country": "US",
+      "last_visited": null,
+      "invite_code": "AAA-001",
+      "full_name_override": "",
+      "state": "MA",
+      "full_address": "555 Main St.\r\nAnytown, MA  55555",
+      "limited_venue": null,
+      "side": "A",
+      "association": "self"
+    }
+  },
+  {
+    "pk": 2,
+    "model": "wedding.invitee",
+    "fields": {
+      "last_updated": "2011-04-30 17:51:32",
+      "private_notes": "",
+      "country": "US",
+      "last_visited": "2011-04-30 17:51:32",
+      "invite_code": "555-555",
+      "full_name_override": "",
+      "state": "DC",
+      "full_address": "1600 Pennsylvania Avenue\r\nWashington, DC 20500",
+      "limited_venue": null,
+      "side": "A",
+      "association": "family friend"
+    }
+  },
+  {
+    "pk": 1,
+    "model": "wedding.guest",
+    "fields": {
+      "first_name": "Alyssa",
+      "last_name": "Hacker",
+      "invitee": 1,
+      "email": "aphacker@example.org",
+      "role": "Bride",
+      "home_phone": "555-555-5555",
+      "cell_phone": "",
+      "nickname": "Lys",
+      "order": 1
+    }
+  },
+  {
+    "pk": 2,
+    "model": "wedding.guest",
+    "fields": {
+      "first_name": "Ben",
+      "last_name": "Bitdiddle",
+      "invitee": 1,
+      "email": "ben@example.org",
+      "role": "Groom",
+      "home_phone": "555-555-5555",
+      "cell_phone": "",
+      "nickname": "",
+      "order": 2
+    }
+  },
+  {
+    "pk": 3,
+    "model": "wedding.guest",
+    "fields": {
+      "first_name": "Barack",
+      "last_name": "Obama",
+      "invitee": 2,
+      "email": "president@example.gov",
+      "role": "",
+      "home_phone": "555-555-5555",
+      "cell_phone": "",
+      "nickname": "Mr. President",
+      "order": 1
+    }
+  },
+  {
+    "pk": 4,
+    "model": "wedding.guest",
+    "fields": {
+      "first_name": "Michelle",
+      "last_name": "Obama",
+      "invitee": 2,
+      "email": "michelle@example.gov",
+      "role": "",
+      "home_phone": "",
+      "cell_phone": "",
+      "nickname": "",
+      "order": 2
+    }
+  },
+  {
+    "pk": "MA:beef",
+    "model": "wedding.foodoption",
+    "fields": {
+      "venue": "MA",
+      "long_desc": "Beef!",
+    }
+  },
+  {
+    "pk": "MA:chicken",
+    "model": "wedding.foodoption",
+    "fields": {
+      "venue": "MA",
+      "long_desc": "Chicken!",
+    }
+  },
+  {
+    "pk": "MA:veg",
+    "model": "wedding.foodoption",
+    "fields": {
+      "venue": "MA",
+      "long_desc": "Vegetarian!",
+    }
+  },
+  {
+    "pk": "CA:fish",
+    "model": "wedding.foodoption",
+    "fields": {
+      "venue": "CA",
+      "long_desc": "Fish!",
+    }
+  },
+  {
+    "pk": "CA:chicken",
+    "model": "wedding.foodoption",
+    "fields": {
+      "venue": "CA",
+      "long_desc": "Chicken!",
+    }
+  },
+  {
+    "pk": "CA:kids",
+    "model": "wedding.foodoption",
+    "fields": {
+      "venue": "CA",
+      "long_desc": "Special kids meal",
+    }
+  },
+  {
+    "pk": 1,
+    "model": "wedding.rsvpoption",
+    "fields": {
+      "likelihood": 100,
+      "long_desc": "Yes: Attending with pleasure",
+      "short_desc": "Yes"
+    }
+  },
+  {
+    "pk": 2,
+    "model": "wedding.rsvpoption",
+    "fields": {
+      "likelihood": 0,
+      "long_desc": "No: Decline with regret",
+      "short_desc": "No: Decline"
+    }
+  },
+  {
+    "pk": 3,
+    "model": "wedding.rsvpoption",
+    "fields": {
+      "likelihood": 0,
+      "long_desc": "No: Will not be attending at this location as the other is more convenient",
+      "short_desc": "No: Other Site"
+    }
+  },
+  {
+    "pk": 4,
+    "model": "wedding.rsvpoption",
+    "fields": {
+      "likelihood": 50,
+      "long_desc": "Maybe: Undecided at this time",
+      "short_desc": "Maybe"
+    }
+  },
+  {
+    "pk": 5,
+    "model": "wedding.rsvpoption",
+    "fields": {
+      "likelihood": 50,
+      "long_desc": "Maybe: Would love to attend and plan to apply for US travel visa",
+      "short_desc": "Maybe: Need Visa"
+    }
+  },
+  {
+    "pk": 1,
+    "model": "wedding.rsvp",
+    "fields": {
+      "status": 4,
+      "bus_selection": "none",
+      "last_updated": "2011-04-30 17:51:32",
+      "guest": 3,
+      "table_assign": null,
+      "venue": "MA",
+      "food_selection": "MA:veg",
+      "prelim": false,
+      "last_update_source": "web"
+    }
+  },
+  {
+    "pk": 2,
+    "model": "wedding.rsvp",
+    "fields": {
+      "status": 1,
+      "bus_selection": "",
+      "last_updated": "2011-04-30 17:51:32",
+      "guest": 3,
+      "table_assign": null,
+      "venue": "CA",
+      "food_selection": "CA:fish",
+      "prelim": false,
+      "last_update_source": "web"
+    }
+  },
+  {
+    "pk": 3,
+    "model": "wedding.rsvp",
+    "fields": {
+      "status": 1,
+      "bus_selection": null,
+      "last_updated": "2011-04-30 17:51:32",
+      "guest": 4,
+      "table_assign": null,
+      "venue": "MA",
+      "food_selection": null,
+      "prelim": false,
+      "last_update_source": "web"
+    }
+  },
+  {
+    "pk": 4,
+    "model": "wedding.rsvp",
+    "fields": {
+      "status": 1,
+      "bus_selection": null,
+      "last_updated": "2011-04-30 17:51:32",
+      "guest": 4,
+      "table_assign": null,
+      "venue": "CA",
+      "food_selection": null,
+      "prelim": false,
+      "last_update_source": "web"
+    }
+  },
+  {
+    "pk": 1,
+    "model": "auth.user",
+    "fields": {
+      "username": "aphacker",
+      "first_name": "",
+      "last_name": "",
+      "is_active": true,
+      "is_superuser": true,
+      "is_staff": true,
+      "last_login": "2011-04-30 17:51:47",
+      "groups": [],
+      "user_permissions": [],
+      "password": "sha1$d071a$33ff8aebcb139fc556f629c5196931ef0ea5e1cc",
+      "email": "aphacker@example.org",
+      "date_joined": "2011-04-30 17:16:07"
+    }
+  },
+  {
+    "pk": 2,
+    "model": "auth.user",
+    "fields": {
+      "username": "invitee92",
+      "first_name": "",
+      "last_name": "",
+      "is_active": true,
+      "is_superuser": false,
+      "is_staff": false,
+      "last_login": "2011-04-30 17:50:55",
+      "groups": [],
+      "user_permissions": [],
+      "password": "*NOT*VALID*FOR*LOGIN*",
+      "email": "",
+      "date_joined": "2011-04-30 17:50:55"
+    }
+  }
+]

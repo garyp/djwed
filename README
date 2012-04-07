@@ -90,18 +90,21 @@ Initial setup:
 * Go through settings.py and make any necessary changes to file 
   paths, keys, etc.  
 
-* Note that there's an example database provided in data/weddingdata-test.sqlite
-  that should allow you to get started seeing if things even run.  You can start
-  the sample server with:
+* Note that there's sample data provided in wedding/fixtures/sample.json
+  that should allow you to get started seeing if things even run.  You can
+  initialize the database, load the sample data, and start the sample server
+  with:
 
-       ./manage.py runserver 
+      ./manage.py syncdb --noinput
+      ./manage.py loaddata sample
+      ./manage.py runserver
+
+  (The example database provided uses the user "aphacker" with password "passw0rd")
 
 * To create/initialize the database from scratch and setup admin user, move
   the data/weddingdata-test.sqlite file aside then run:
 
       ./manage.py syncdb
-
-  (The example database provided uses the user "aphacker" with password "passw0rd")
 
 * Startup the sample webserver in your staging environment with:
 
