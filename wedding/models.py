@@ -291,7 +291,7 @@ class Table(models.Model):
         return u"%s: %s (%s)"%(self.venue.site, self.number,self.name)
 
 class FoodOption(models.Model):
-    short_desc = models.CharField(max_length=10)
+    short_desc = models.CharField(max_length=10, primary_key=True)
     long_desc  = models.CharField(max_length=300)
     venue = models.ForeignKey(Venue)
     def food_name(self):
