@@ -7,7 +7,7 @@ from djwed.wedding.settings import *
 
 class PageSnippet(models.Model):
     key = models.CharField(max_length=30, primary_key=True)
-    title = models.CharField("Page header/title", max_length=100, blank=True, null=True)
+    title = models.CharField("Page header/title", max_length=100, blank=True)
     html = models.TextField("HTML Content")
     last_updated = models.DateTimeField(auto_now=True, null=True)
     def __unicode__(self):
@@ -46,14 +46,14 @@ class Invitee(models.Model):
         (u'J', u'Both/Joint'),
         (u'B', u'Ben'),
         )    
-    full_name_override = models.CharField("Alternate name on invitation", max_length=100, blank=True, null=True)
+    full_name_override = models.CharField("Alternate name on invitation", max_length=100, blank=True)
     invite_code = models.SlugField(max_length=20, unique=True)
     association = models.CharField(max_length=20, choices=ASSOCIATION_CHOICES, blank=True)
     side = models.CharField(max_length=1, choices=SIDE_CHOICES)
     state = models.CharField(max_length=2, blank=True)
     country = models.CharField(max_length=2)
     full_address = models.TextField()
-    private_notes = models.TextField(blank=True, null=True)
+    private_notes = models.TextField(blank=True)
     limited_venue = models.ForeignKey(Venue, null=True, blank=True, verbose_name="Strongly preferred venue")  
     last_updated = models.DateTimeField("Last update on site", auto_now=True)
     last_visited = models.DateTimeField("Last site visitation", null=True, blank=True)
@@ -190,9 +190,9 @@ class Invitee(models.Model):
 
 class InviteeNotes(models.Model):
     invitee = models.ForeignKey(Invitee)
-    likely_site = models.CharField(max_length=50, blank=True, null=True)
-    savedate = models.CharField(max_length=1, blank=True, null=True)
-    batch = models.CharField(max_length=10, blank=True, null=True)
+    likely_site = models.CharField(max_length=50, blank=True)
+    savedate = models.CharField(max_length=1, blank=True)
+    batch = models.CharField(max_length=10, blank=True)
     adults = models.DecimalField(max_digits=2, decimal_places=1)
     children = models.DecimalField(max_digits=2, decimal_places=1)
     ma_likelihood = models.PositiveIntegerField()
@@ -225,8 +225,8 @@ class Guest(models.Model):
     email = models.EmailField(blank=True)
     invitee = models.ForeignKey(Invitee)
     role = models.CharField(max_length=20, blank=True)
-    home_phone = models.CharField(max_length=50, blank=True, null=True)
-    cell_phone = models.CharField(max_length=50, blank=True, null=True)
+    home_phone = models.CharField(max_length=50, blank=True)
+    cell_phone = models.CharField(max_length=50, blank=True)
 
     def full_name(self):
         if self.nickname:
@@ -285,8 +285,8 @@ class Table(models.Model):
     name = models.CharField(max_length=50)
     number  = models.PositiveIntegerField()
     venue = models.ForeignKey(Venue)
-    position = models.CharField(max_length=50,null=True, blank=True)
-    notes = models.TextField(null=True, blank=True)
+    position = models.CharField(max_length=50, blank=True)
+    notes = models.TextField(blank=True)
     def __unicode__(self):
         return u"%s: %s (%s)"%(self.venue.site, self.number,self.name)
 
@@ -359,8 +359,8 @@ class RSVP(models.Model):
     status = models.ForeignKey(RSVPOption, null=True)
     food_selection = models.ForeignKey(FoodOption, null=True, blank=True)
     last_updated = models.DateTimeField(auto_now=True)
-    last_update_source = models.CharField(max_length=8, choices=SOURCE_CHOICES, null=True, blank=True)
-    bus_selection = models.CharField(max_length=4, choices=BUS_CHOICES, null=True, blank=True)
+    last_update_source = models.CharField(max_length=8, choices=SOURCE_CHOICES, blank=True)
+    bus_selection = models.CharField(max_length=4, choices=BUS_CHOICES, blank=True)
     table_assign = models.ForeignKey(Table, null=True, blank=True)
 
     def __unicode__(self):
@@ -445,8 +445,8 @@ class Gift(models.Model):
     received = models.DateField()
     description = models.TextField(blank=True)
     notes = models.TextField(blank=True)
-    status = models.CharField(max_length=10, choices=STATUS_CHOICES,null=True)
-    registry = models.CharField(max_length=20, choices=REGISTRY_CHOICES,null=True)
-    assignment = models.CharField(max_length=5, choices=ASSIGNMENT_CHOICES,null=True)
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES)
+    registry = models.CharField(max_length=20, choices=REGISTRY_CHOICES)
+    assignment = models.CharField(max_length=5, choices=ASSIGNMENT_CHOICES)
     thank_you_sent = models.DateField(null=True,blank=True)
 
