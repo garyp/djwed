@@ -192,7 +192,7 @@ class TableAdmin(admin.ModelAdmin):
             guests.append(unicode(r.guest))
         guests.sort()
         return u" , \n".join(guests)
-    table_count.short_description = "guests"
+    table_guests.short_description = "guests"
 
 
 class RSVPOptionAdmin(admin.ModelAdmin):
