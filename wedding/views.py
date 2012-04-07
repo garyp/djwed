@@ -648,11 +648,10 @@ def tools_guest_count(request, filter=None, template=None, venue_site=None):
         return HttpResponseRedirect('/admin/')        
 
     venues = []
-    if venue_site == None:
-        venues.append(VenueReport('MA'))
-        venues.append(VenueReport('CA'))
+    if venue_site:
+        venues = [VenueReport(venue_site),]
     else:
-        venues.append(VenueReport(venue_site))
+        venues = [VenueReport(v.site) for v in Venue.objects.all()]
 
     return render_to_response(template, {
         'invitees': Invitee.objects.all().order_by('last_updated','last_visited').reverse(),
