@@ -1,0 +1,6 @@
+Django<1.4
+django_photologue
+django_tagging
+PIL
+pyExcelerator
+reportlab
