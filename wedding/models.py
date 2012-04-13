@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 from django.db import models
 from django.db.models import Q
 from django.core.exceptions import ValidationError,ObjectDoesNotExist
@@ -122,7 +124,7 @@ class Invitee(models.Model):
 
     # Attendance summary
     def rsvp_yes_counts(self):
-        venue_counts = { 'MA': 0,  'CA': 0 }
+        venue_counts = defaultdict(int)
         for g in self.guest_set.all():
             for r in g.rsvp_set.filter(status__in=RSVPOption.objects.yes()):
                 venue_counts[r.venue.site] += 1
@@ -140,16 +142,17 @@ class Invitee(models.Model):
 
     def rsvp_yes_text(self):
         vc = self.rsvp_yes_counts()
-        ma = vc[u'MA']
-        ca = vc[u'CA']
-        if not ma and not ca:
+        if len(vc) == 0:
             return "You have not yet RSVPed as planning to attend."
-        ca_str = ma_str = ""
-        if ma > 0:
-            ma_str = "<b>%d %s</b> attending in Massachusetts"%(ma, "people" if ma>1 else "person")
-        if ca > 0:
-            ca_str = "<b>%d %s</b> attending in California"%(ca, "people" if ca>1 else "person")
-        return "You are currently RSVPed as %s%s%s."%(ma_str, " and " if ca>0 and ma>0 else "", ca_str)
+
+        venue_strings = []
+        for v, people in vc:
+            venue = Venue.get(v)
+            venue_strings.append("<b>%d %s</b> attending in %s, %s"
+                                 % (people, "people" if people>1 else "person",
+                                    venue.city, venue.state))
+
+        return "You are currently RSVPed as %s." % " and ".join(venue_strings)
 
     def rsvp_missing_food_selection(self):
         missing = False
