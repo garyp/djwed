@@ -130,15 +130,16 @@ class Invitee(models.Model):
                 venue_counts[r.venue.site] += 1
         return venue_counts
 
-    def rsvp_any_unresponded(self):
-        any = False
+    def rsvp_any_unresponded(self, include_undecided=True):
         for g in self.guest_set.all():
             if g.rsvp_set.count() == 0:
-                any = True
-            for r in g.rsvp_set.filter(Q(status__isnull=True)
-                    | Q(status__in=RSVPOption.objects.undecided())):
-                any = True
-        return any        
+                return True
+            query = Q(status__isnull=True)
+            if include_undecided:
+                query = query | Q(status__in=RSVPOption.objects.undecided())
+            if g.rsvp_set.filter(query).count() > 0:
+                return True
+        return False
 
     def rsvp_yes_text(self):
         vc = self.rsvp_yes_counts()
@@ -153,6 +154,14 @@ class Invitee(models.Model):
                                     venue.city, venue.state))
 
         return "You are currently RSVPed as %s." % " and ".join(venue_strings)
+
+    def rsvp_prelim_text(self):
+        if self.rsvp_any_unresponded(False):
+            return ("You have not yet let us know if you are likely to attend. "
+                    "Please update your response below.")
+        else:
+            return ("Thank you for letting us know your availability. "
+                    "You can update your response below.")
 
     def rsvp_missing_food_selection(self):
         missing = False
