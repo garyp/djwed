@@ -1,5 +1,7 @@
 
-<p>Previous <a href="/comment/">comments</a> you have left:</p>
+<p><a href="/comment/">Leave a comment for us</a>.
+{% if comments|length > 0 %}
+Previous comments you have left:</p>
 
 <table class="infotable">
 {% for c in comments reversed %}
@@ -10,4 +12,5 @@
 </tr>
 {% endfor %}
 </table>
+{% endif %}
 
