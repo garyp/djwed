@@ -83,7 +83,8 @@ h1 {
     color:      #0000dd;
     margin: 8px;
     padding: 8px;
-    font: 10pt bold; 
+    font-size: 10pt;
+    font-weight: bold;
     text-align: center;
 }
 
@@ -154,7 +155,7 @@ table.infotable2 tr, table.infotable2 td, table.infotable2 th {
 }
 
 .errorlist {
-    font: bold;
+    font-weight: bold;
     color: #0000ff;
 }
 
