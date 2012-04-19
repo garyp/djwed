@@ -75,7 +75,7 @@ def email_with_template(send=False, recipient=None, template_prefix="", subject=
             if isinstance(r,Invitee):
                 invitees.append(r)
             else:
-                invitees.append(Invitee.objects.filter(guest__email=recipient))
+                invitees.append(Invitee.objects.filter(guest__email=r))
     for inv in invitees:
         print inv
         email_invitee(template_prefix+".txt",
