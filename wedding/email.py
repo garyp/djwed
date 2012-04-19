@@ -36,25 +36,7 @@ def email_invitee(template, subject, invitee, send=False, html_template=None, at
         print "Problem sending email to %s: %s"%(str(invitee),str(e))
 
 
-def email_all_invitees(template, subject, send=False):
-    for inv in Invitee.objects.all():
-        email_invitee(template, subject, inv, send=send)
-
-
-def email_save_the_date(send=False, recipient=None):
-    if recipient is None:
-        recipient = settings.FROM_EMAIL[1]
-    email_with_template(send, recipient, template_prefix="email_save_the_date",
-                        subject=("""Save the Date for %s Wedding!"""
-                                 % settings.WEDDING_NAMES))
-
-def email_website_update_1(send=False, recipient=None):
-    if recipient is None:
-        recipient = settings.FROM_EMAIL[1]
-    email_with_template(send, recipient, template_prefix="email_website_update",
-                        subject="""Updates on Our upcoming wedding and receptions""")
-
-def email_with_template(send=False, recipient=None, template_prefix="", subject="Updates for our upcoming wedding and receptions"):
+def select_invitees(recipient):
     if recipient is None:
         recipient = settings.FROM_EMAIL[1]
     invitees = []    
@@ -79,6 +61,33 @@ def email_with_template(send=False, recipient=None, template_prefix="", subject=
                     invitees.append(Invitee.objects.filter(guest__email=r))
         except TypeError: # recipient was not a sequence
             pass
+
+    return invitees
+
+
+def email_all_invitees(template, subject, send=False):
+    for inv in Invitee.objects.all():
+        email_invitee(template, subject, inv, send=send)
+
+
+def email_save_the_date(send=False, recipient=None):
+    email_with_template(send,
+                        select_invitees(recipient),
+                        template_prefix="email_save_the_date",
+                        subject=("""Save the Date for %s Wedding!"""
+                                 % settings.WEDDING_NAMES)
+                        )
+
+
+def email_website_update_1(send=False, recipient=None):
+    invitees = select_invitees(recipient)
+    email_with_template(send, invitees, template_prefix="email_website_update",
+                        subject="""Updates on Our upcoming wedding and receptions""")
+
+
+def email_with_template(send=False, invitees=None, template_prefix="",
+                        subject="Updates for our upcoming wedding and receptions"):
+    if invitees is None: return
     for inv in invitees:
         print inv
         email_invitee(template_prefix+".txt",
