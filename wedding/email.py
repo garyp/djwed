@@ -29,9 +29,10 @@ def email_invitee(template, subject, invitee, send=False, html_template=None, at
         if send:
             print "Sending to %s"%(str(recipients,))
             email.send()
-            print email
+            return email
         else:
             print "Would have sent to %s"%(str(recipients,))
+            return email
     except smtplib.SMTPException, e:
         print "Problem sending email to %s: %s"%(str(invitee),str(e))
 
@@ -88,13 +89,16 @@ def email_website_update_1(send=False, recipient=None):
 def email_with_template(send=False, invitees=None, template_prefix="",
                         subject="Updates for our upcoming wedding and receptions"):
     if invitees is None: return
+    sent = []
     for inv in invitees:
         print inv
-        email_invitee(template_prefix+".txt",
-                      subject,
-                      inv,
-                      send=send,
-                      html_template=template_prefix+".html",
-                      #attach_file="media/save-the-date.png"
-                      )
+        email = email_invitee(template_prefix+".txt",
+                              subject,
+                              inv,
+                              send=send,
+                              html_template=template_prefix+".html",
+                              #attach_file="media/save-the-date.png"
+                              )
+        sent.append((inv, email))
+    return sent
 
