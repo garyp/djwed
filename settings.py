@@ -25,6 +25,8 @@ MANAGERS = (
 
 FROM_EMAIL = ('Alyssa & Ben', 'ab@example.org')
 
+WEDDING_NAMES = 'Alyssa and Ben'
+
 # By keeping the database in a sqlite3 file, I was able to check it into
 # subversion and easily make copies to the staging environment.
 # The performance of sqlite3 was just fine for a single-wedding environment

@@ -45,7 +45,8 @@ def email_save_the_date(send=False, recipient=None):
     if recipient is None:
         recipient = settings.FROM_EMAIL[1]
     email_with_template(send, recipient, template_prefix="email_save_the_date",
-                        subject="""Save the Date for Our Wedding!""")
+                        subject=("""Save the Date for %s Wedding!"""
+                                 % settings.WEDDING_NAMES))
 
 def email_website_update_1(send=False, recipient=None):
     if recipient is None:
