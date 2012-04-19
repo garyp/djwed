@@ -138,7 +138,9 @@ class InviteeNotesAdmin(admin.ModelAdmin):
                     ]
 
     def invitee_rsvp_count(self,inote):
-        return str(inote.invitee.rsvp_yes_counts())
+        counts = inote.invitee.rsvp_yes_counts()
+        return ', '.join('%s: %d' % (venue, counts[venue])
+                         for venue in sorted(counts.keys()))
     invitee_rsvp_count.short_description = "RSVP Yes"
 
     def invitee_country(self,inote):
