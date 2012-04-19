@@ -68,7 +68,7 @@ def email_with_template(send=False, recipient=None, template_prefix="", subject=
         for inv in Invitee.objects.all():
             if (inv.rsvp_any_unresponded() or inv.rsvp_missing_food_selection()) and inv.country != u'RU':
                 invitees.append(Invitee.objects.filter(guest__email=recipient))
-    elif isinstance(recipient , str):
+    elif isinstance(recipient, basestring):
         invitees = Invitee.objects.filter(guest__email=recipient)
     elif isinstance(recipient , tuple):
         for r in recipient:
