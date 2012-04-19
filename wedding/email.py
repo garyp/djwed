@@ -70,12 +70,15 @@ def email_with_template(send=False, recipient=None, template_prefix="", subject=
                 invitees.append(Invitee.objects.filter(guest__email=recipient))
     elif isinstance(recipient, basestring):
         invitees = Invitee.objects.filter(guest__email=recipient)
-    elif isinstance(recipient , tuple):
-        for r in recipient:
-            if isinstance(r,Invitee):
-                invitees.append(r)
-            else:
-                invitees.append(Invitee.objects.filter(guest__email=r))
+    else:
+        try:
+            for r in recipient:
+                if isinstance(r, Invitee):
+                    invitees.append(r)
+                else:
+                    invitees.append(Invitee.objects.filter(guest__email=r))
+        except TypeError: # recipient was not a sequence
+            pass
     for inv in invitees:
         print inv
         email_invitee(template_prefix+".txt",
