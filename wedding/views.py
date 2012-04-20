@@ -123,7 +123,7 @@ def rsvp(request):
         guest_rsvps = []
         all_rsvp_forms = []
         valid = True
-        for g in inv.guest_set.all():
+        for g in inv.ordered_guests().all():
             rsvps = g.get_or_create_rsvps()
             gr = GuestRSVPs(g)
             guest_rsvps.append(gr)
@@ -161,7 +161,7 @@ def rsvp(request):
     else:
         # This could perhaps be better handled with a formset...
         guest_rsvps = []
-        for g in inv.guest_set.all():
+        for g in inv.ordered_guests().all():
             rsvps = g.get_or_create_rsvps()
             gr = GuestRSVPs(g)
             guest_rsvps.append(gr)
