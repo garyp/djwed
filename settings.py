@@ -23,7 +23,12 @@ MANAGERS = (
      ('Alyssa P Hacker', 'aphacker@example.org'),
 )
 
+# Default From email address used by djwed when sending emails, with a display
+# name as well
 FROM_EMAIL = ('Alyssa & Ben', 'ab@example.org')
+
+# Default From email address used by Django when sending emails
+DEFAULT_FROM_EMAIL = FROM_EMAIL[1]
 
 WEDDING_NAMES = 'Alyssa and Ben'
 
