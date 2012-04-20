@@ -424,9 +424,6 @@ class Comment(models.Model):
     last_updated = models.DateTimeField(auto_now=True)
     def __unicode__(self):
         return self.text
-    def clean(self):
-        if not rsvp and not invitee:
-            raise ValidationError('Comment must be associated with a rsvp or invitee')
 
 
 class Gift(models.Model):
