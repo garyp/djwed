@@ -6,24 +6,24 @@
 {% block content %}
 
 {% if form.errors %}
-<p>Your invite code didn't match.  Please try again.</p>
-<p>If you continue to have problems, please email us for a new invite code.</p>
+<p>Your invite code didn't match. Please try again. If you continue to have
+problems, please <a href="mailto:ab@example.org">email us</a> for a new invite
+code.</p>
 {% endif %}
 
 <h2>Please enter your invite code:</h2>
+
+<p>Your Invite Code was included in the save-the-date and invitations. It
+allows this site to know who you are in order to show you your invitation
+information. If you no longer have your code, please <a
+href="mailto:ab@example.org">email us</a>.</p>
+
 <form method="post" action="{% url djwed.wedding.auth.rsvp_login %}">
-<table>
-<tr>
-  <td>{{ form.token.label_tag }}</td>
-    <td>{{ form.token }}</td>
-</tr>
-</table>
-<input type="submit" value="login" />
+<div>
+{{ form.token }}
+<input type="submit" value="Login" />
+</div>
 <input type="hidden" name="next" value="{{ next }}" />
 </form>
-
-<p>Your Invite Code was included in the save-the-date and invitations
-and allows this site to authenticate your login.</p>
-
 
 {% endblock %}
