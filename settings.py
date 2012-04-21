@@ -27,8 +27,9 @@ MANAGERS = (
 # name as well
 FROM_EMAIL = ('Alyssa & Ben', 'ab@example.org')
 
-# Default From email address used by Django when sending emails
-DEFAULT_FROM_EMAIL = FROM_EMAIL[1]
+# Default From email address used by Django when emailing errors and
+# notifications
+DEFAULT_FROM_EMAIL = SERVER_EMAIL = FROM_EMAIL[1]
 
 WEDDING_NAMES = 'Alyssa and Ben'
 
