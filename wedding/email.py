@@ -75,7 +75,7 @@ def email_save_the_date(send=False, recipient=None):
     email_with_template(send,
                         select_invitees(recipient),
                         template_prefix="email_save_the_date",
-                        subject=("""Save the Date for %s Wedding!"""
+                        subject=("""Save the Date for %s's Wedding!"""
                                  % settings.WEDDING_NAMES)
                         )
 
