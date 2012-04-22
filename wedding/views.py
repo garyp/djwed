@@ -259,6 +259,8 @@ def profile(request):
 def rsvp_addguest(request):
     if request.user.is_staff: return HttpResponseRedirect('/accounts/login/')        
     inv = user_to_invitee(request.user)
+    # grab the name before the addition of the new guest
+    inv_full_name = inv.full_name()
     if request.method == 'POST':
         if not allow_rsvp_changes:
             if SEND_EMAIL:
@@ -273,8 +275,8 @@ def rsvp_addguest(request):
             g.save()
             inv.mark_updated()
             if SEND_EMAIL:
-                mail_managers('Guest addition from '+inv.full_name(),
-                              u'This invitee has added a guest: %s\nhttp://wedding.example.org/admin/wedding/invitee/%s/'%(unicode(g.full_name), str(inv.id)))
+                mail_managers('Guest addition from '+inv_full_name,
+                              u'This invitee has added a guest: %s\nhttp://wedding.example.org/admin/wedding/invitee/%s/'%(unicode(g.full_name()), str(inv.id)))
             return HttpResponseRedirect('/thankyou/') 
     else:
         form = AddGuestForm()
