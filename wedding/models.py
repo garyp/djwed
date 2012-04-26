@@ -76,15 +76,25 @@ class Invitee(models.Model):
         self.last_updated = datetime.datetime.now()
         self.save()
 
+    def _name_join(self, names, sep=u", ", final_sep=u" and "):
+        if len(names) <= 2:
+            return final_sep.join(names)
+        else:
+            return sep.join(names[:-1]) + final_sep + names[-1]
+
     def full_name(self):
         if self.full_name_override:
             return self.full_name_override
         if self.guest_set.all():
             sln = self.shared_last_name()
             if sln:
-                return u' and '.join(map(lambda x: x.first_name, self.ordered_guests()))+u" "+unicode(sln)
+                return u"%s %s" % (
+                        self._name_join([ g.first_name
+                                          for g in self.ordered_guests() ]),
+                        unicode(sln))
             else:
-                return u' and '.join(map(lambda x: x.__unicode__(), self.ordered_guests()))
+                return self._name_join([ g.__unicode__()
+                                         for g in self.ordered_guests() ])
         else:
             return self.invite_code
     full_name.short_description = "Full names of guests"
@@ -95,10 +105,14 @@ class Invitee(models.Model):
             return self.full_name_override
         if self.guest_set.all():
             sln = self.shared_last_name()
+            couple = self.ordered_guests()[:2]
             if sln:
-                return u' and '.join(map(lambda x: x.first_name, self.ordered_guests()[:2]))+u" "+unicode(sln)
+                return u"%s and %s %s" % (
+                        couple[0].first_name,
+                        couple[1].first_name,
+                        unicode(sln))
             else:
-                return u' and '.join(map(lambda x: x.__unicode__(), self.ordered_guests()[:2]))
+                return u" and ".join(x.__unicode__() for x in couple)
         else:
             return self.invite_code
     full_name_couple.short_description = "Full names of guests"
@@ -106,20 +120,16 @@ class Invitee(models.Model):
     def first_names_children(self):
         """ Returns the subsequent names after the first. """
         if self.guest_set.all().count() > 2:
-            return u' and '.join(map(lambda x: x.first_name, self.ordered_guests()[2:]))
+            return self._name_join([ g.first_name
+                                     for g in self.ordered_guests()[2:] ])
         else:
             return u""
     full_name_couple.short_description = "Full names of children"
 
     def first_names(self):
         if self.guest_set.all():
-            guests = list(self.ordered_guests())
-            if len(guests) == 1:
-                return guests[0].first_name
-            elif len(guests) == 2:
-                return guests[0].first_name+u" and "+guests[1].first_name
-            else:
-                return u', '.join(map(lambda x: x.first_name, guests[:-1]))+u", and "+guests[-1].first_name
+            return self._name_join([ g.first_name
+                                     for g in self.ordered_guests() ])
     first_names.short_description = "First names of guests"
 
     # Attendance summary
