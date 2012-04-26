@@ -16,7 +16,7 @@ For more information, to verify that we have your correct
 contact information, and to let us know if you are considering 
 attending, please visit:
 
-	http://wedding.example.org/rsvp/{{invitee.invite_code}}/
+     http://wedding.example.org/rsvp/{{invitee.invite_code}}/
 
 Your invite code for the website is: {{invitee.invite_code}}
 
