@@ -565,7 +565,7 @@ class VenueReport:
         for sv in RSVPOption.objects.all().order_by('likelihood'):
             self.report_by_status.append(VenueStatusReport(self, sv))
         self.no_information = []
-        for inote in InviteeNotes.objects.exclude(invitee__guest__rsvp__venue=self.venue):
+        for inote in InviteeNotes.objects.exclude(invitee__guest__rsvp__venue=self.venue, invitee__guest__rsvp__status__isnull=False):
             self.no_information.append({'invitee': inote.invitee.full_name(),
                                         'ev': inote.venue_ev(self.venue) })
         self.viewed_but_blank = []
