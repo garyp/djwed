@@ -16,7 +16,6 @@ class RSVPInline(admin.TabularInline):
 class GuestInline(admin.StackedInline):
     model = Guest
     extra = 1
-    inlines = [RSVPInline,]
 
 class FoodOptionInline(admin.StackedInline):
     model = FoodOption
