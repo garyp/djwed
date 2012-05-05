@@ -21,16 +21,19 @@ class FoodOptionInline(admin.StackedInline):
     model = FoodOption
     extra = 3
     
-#class CommentInline(admin.StackedInline):
-#    model = Comment
-#    fk_name = "comment"
+class CommentInline(admin.StackedInline):
+    model = Comment
+    extra = 0
+    exclude = ('rsvp',)
+    readonly_fields = ('text',)
+    verbose_name_plural = "comments from invitees"
     
 class InviteeAdmin(admin.ModelAdmin):
     #fieldsets = [
     #    (None,               {'fields': ['question']}),
     #    ('Date information', {'fields': ['pub_date'], 'classes': ['collapse']}),
     #]
-    inlines = [GuestInline,InviteeNotesInline]
+    inlines = [GuestInline,InviteeNotesInline,CommentInline]
     list_display = ('full_name', 'full_name_override', 'full_address', 'state','country')
     list_editable = ('full_name_override',)
     list_filter = ['side', 'association','country','state']
