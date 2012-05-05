@@ -167,11 +167,11 @@ class Invitee(models.Model):
 
     def rsvp_prelim_text(self):
         if self.rsvp_any_unresponded(False):
-            return ("You have not yet let us know if you are likely to attend. "
-                    "Please update your response below.")
+            return ("You haven't yet told us if you are likely to attend. "
+                    "Please update your response and address below.")
         else:
             return ("Thank you for letting us know your availability. "
-                    "You can update your response below.")
+                    "You can update your response and address below.")
 
     def rsvp_missing_food_selection(self):
         missing = False
