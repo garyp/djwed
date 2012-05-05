@@ -7,6 +7,7 @@ from django.contrib import admin
 class InviteeNotesInline(admin.TabularInline):
     model = InviteeNotes
     extra = 0
+    verbose_name_plural = "invitee notes"
 
 class RSVPInline(admin.TabularInline):
     model = RSVP
