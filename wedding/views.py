@@ -532,12 +532,6 @@ class VenueStatusReport:
         else:
             return 'No Information'
 
-    def guests(self):
-        if self.any_response():
-            return self.vr.venue.rsvp_set.filter(status=self.status)
-        else:
-            return Guest.objects.exclude(rsvp__venue=self.vr.venue)        
-    
     def rsvps(self):
         if self.any_response():
             return self.vr.venue.rsvp_set.filter(status=self.status)
