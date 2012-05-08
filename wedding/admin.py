@@ -1,5 +1,6 @@
 from django import forms
 from djwed.wedding.models import *
+from djwed.wedding.admin_actions import *
 from django.contrib import admin
 
 
@@ -38,6 +39,10 @@ class InviteeAdmin(admin.ModelAdmin):
     list_editable = ('full_name_override',)
     list_filter = ['side', 'association','country','state']
     search_fields = ['full_name_override','invite_code','guest__first_name', 'guest__last_name', 'guest__nickname']
+    actions = [
+            export_as_csv_action("Export addresses as CSV",
+                                 fields=['full_name', 'full_address']),
+            ]
     #date_hierarchy = 'pub_date'
 
 class LongFoodChoiceField(forms.ModelChoiceField):
