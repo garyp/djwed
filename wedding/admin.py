@@ -136,6 +136,8 @@ class InviteeNotesAdmin(admin.ModelAdmin):
                      'ma_likelihood',
                      'ca_likelihood',
                      'or_likelihood',
+                     'savedate',
+                     'batch',
                      'invitee_rsvp_count',
                      'adults',
                      'children',
@@ -143,6 +145,8 @@ class InviteeNotesAdmin(admin.ModelAdmin):
                      ]
     list_editable = ['ma_likelihood',
                      'ca_likelihood',
+                     'savedate',
+                     'batch',
                     ]
 
     def invitee_rsvp_count(self,inote):
