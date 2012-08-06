@@ -154,16 +154,19 @@ class Invitee(models.Model):
     def rsvp_yes_text(self):
         vc = self.rsvp_yes_counts()
         if len(vc) == 0:
-            return "You have not yet RSVPed as planning to attend."
+            return ("You have not yet RSVPed as planning to attend. "
+                    "Please update your response below.")
 
         venue_strings = []
         for v, people in vc:
             venue = Venue.get(v)
-            venue_strings.append("<b>%d %s</b> attending in %s, %s"
+            venue_strings.append("<strong>%d %s</strong> attending in %s, %s"
                                  % (people, "people" if people>1 else "person",
                                     venue.city, venue.state))
 
-        return "You are currently RSVPed as %s." % " and ".join(venue_strings)
+        return ("You are currently RSVPed as %s. "
+                "You can update your response below."
+                % " and ".join(venue_strings))
 
     def rsvp_prelim_text(self):
         if self.rsvp_any_unresponded(False):
