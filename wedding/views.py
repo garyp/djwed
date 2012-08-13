@@ -134,7 +134,7 @@ def rsvp(request):
                 if not rf.is_valid():
                     valid = False
         if valid:
-            summary = ""
+            summary = []
             for rf in all_rsvp_forms:
                 r = rf.save(commit=False)
                 # Clear preliminary RSVP flag
@@ -147,16 +147,16 @@ def rsvp(request):
                 r.last_update_source = u'web'
                 if r.guest.invitee != inv:
                     raise HttpResponseForbidden("Invalid invitee for RSVP/guest!")
-                summary += unicode(r)+"\n"
+                summary.append(unicode(r))
                 r.save()
             inv.mark_updated()
             #print summary
             if SEND_EMAIL:
                 mail_managers('RSVP from '+inv.full_name(),
-                              'New status: %s\n\n'%(summary,))
+                              'New status: \n%s\n\n'%("\n".join(summary),))
             else:
                 print ('RSVP from '+inv.full_name(),
-                       'New status: %s\n\n'%(summary,))
+                       'New status: \n%s\n\n'%("\n".join(summary),))
             return HttpResponseRedirect('/thankyou/') 
     else:
         # This could perhaps be better handled with a formset...
