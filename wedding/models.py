@@ -158,8 +158,8 @@ class Invitee(models.Model):
                     "Please update your response below.")
 
         venue_strings = []
-        for v, people in vc:
-            venue = Venue.get(v)
+        for v, people in vc.iteritems():
+            venue = Venue.objects.get(site=v)
             venue_strings.append("<strong>%d %s</strong> attending in %s, %s"
                                  % (people, "people" if people>1 else "person",
                                     venue.city, venue.state))
