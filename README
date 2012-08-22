@@ -135,9 +135,9 @@ Initial setup:
 
    (until you create the splash page, http://127.0.0.1:8000/ will fail to load)
    
-   - Create a venue under Wedding/Venue.  (Unless you change things in code,
-     sites must be "MA" and "CA").  Food options should have short descriptions
-     of the form "MA:beef" and "MA:chicken" and "MA:veg".
+  - Create a venue under Wedding/Venue.  (Unless you change things in code,
+    sites must be "MA" and "CA").  Food options should have short descriptions
+    of the form "MA:beef" and "MA:chicken" and "MA:veg".
 
   - Create some Invitees.  Each invitee may consist of multiple guests.
     (You can add some additional information per-invitee with an "Invitee Notes" object.)
