@@ -456,6 +456,8 @@ class Gift(models.Model):
         (u'ws',       u'Williams Sonoma'),
         (u'amazon',   u'Amazon'),
         (u'bbb',      u'Bed, Bath, and Beyond'),
+        (u'cb',       u'Crate & Barrel'),
+        (u'macys',    u"Macy's"),
         (u'donation', u'Donation'),
         (u'other',    u'Other'),
         (u'creative', u'Creative gift'),
