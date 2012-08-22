@@ -84,6 +84,7 @@ Initial setup:
       python-imaging
       python-reportlab
       python-excelerator
+      python-django-south
 
   (It is very possible that I missed some when putting this list together)
 
@@ -95,7 +96,7 @@ Initial setup:
   initialize the database, load the sample data, and start the sample server
   with:
 
-      ./manage.py syncdb --noinput
+      ./manage.py migrate
       ./manage.py loaddata sample
       ./manage.py runserver
 
@@ -104,7 +105,7 @@ Initial setup:
 * To create/initialize the database from scratch and setup admin user, move
   the data/weddingdata-test.sqlite file aside then run:
 
-      ./manage.py syncdb
+      ./manage.py migrate
 
 * Startup the sample webserver in your staging environment with:
 
