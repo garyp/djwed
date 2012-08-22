@@ -151,6 +151,7 @@ INSTALLED_APPS = (
     'djwed.wedding',
     'tagging',
     'photologue',
+    'south',
 )
 
 
