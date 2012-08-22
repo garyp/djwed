@@ -165,50 +165,56 @@
     }
   },
   {
-    "pk": "MA:beef",
+    "pk": 1,
     "model": "wedding.foodoption",
     "fields": {
       "venue": "MA",
+      "short_desc": "beef",
       "long_desc": "Beef!",
     }
   },
   {
-    "pk": "MA:chicken",
+    "pk": 2,
     "model": "wedding.foodoption",
     "fields": {
       "venue": "MA",
+      "short_desc": "chicken",
       "long_desc": "Chicken!",
     }
   },
   {
-    "pk": "MA:veg",
+    "pk": 3,
     "model": "wedding.foodoption",
     "fields": {
       "venue": "MA",
+      "short_desc": "veg",
       "long_desc": "Vegetarian!",
     }
   },
   {
-    "pk": "CA:fish",
+    "pk": 4,
     "model": "wedding.foodoption",
     "fields": {
       "venue": "CA",
+      "short_desc": "fish",
       "long_desc": "Fish!",
     }
   },
   {
-    "pk": "CA:chicken",
+    "pk": 5,
     "model": "wedding.foodoption",
     "fields": {
       "venue": "CA",
+      "short_desc": "chicken",
       "long_desc": "Chicken!",
     }
   },
   {
-    "pk": "CA:kids",
+    "pk": 6,
     "model": "wedding.foodoption",
     "fields": {
       "venue": "CA",
+      "short_desc": "kids",
       "long_desc": "Special kids meal",
     }
   },
@@ -267,7 +273,7 @@
       "guest": 3,
       "table_assign": null,
       "venue": "MA",
-      "food_selection": "MA:veg",
+      "food_selection": 3,
       "prelim": false,
       "last_update_source": "web"
     }
@@ -282,7 +288,7 @@
       "guest": 3,
       "table_assign": null,
       "venue": "CA",
-      "food_selection": "CA:fish",
+      "food_selection": 4,
       "prelim": false,
       "last_update_source": "web"
     }

@@ -621,8 +621,9 @@ class VenueReport:
             if r.table_assign:
                 ti = tindex[r.table_assign]
                 ti['rsvps'].append(r)
-                food = r.food_selection.food_name()
-                if not food: food = "undecided"
+                food = "undecided"
+                if r.food_selection:
+                    food = r.food_selection.short_desc
                 if ti['foodcounts'].has_key(food):
                     ti['foodcounts'][food] += 1
                 else:
