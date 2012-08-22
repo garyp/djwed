@@ -359,6 +359,9 @@ class RSVPOption(models.Model):
 class NoRSVPInfo(Exception): pass
 
 class RSVP(models.Model):
+    class Meta:
+        unique_together = ("guest","venue")
+
     BUS_CHOICES = (
         (u'none', u'None requested'),
         (u'both', u'Both directions'),
@@ -379,8 +382,6 @@ class RSVP(models.Model):
         (u'other', u'Other')
         )        
 
-
-    unique_together = ("guest","venue")
     guest = models.ForeignKey(Guest)
     venue = models.ForeignKey(Venue)
     prelim = models.BooleanField("Preliminary")
