@@ -322,7 +322,7 @@ class FoodOption(models.Model):
     def food_name(self):
         return self.short_desc.split(u":")[1]
     def __unicode__(self):
-        return self.short_desc
+        return (u"%s:%s" % (self.venue.site, self.short_desc))
 
 class RSVPOptionManager(models.Manager):
     def yes(self):
