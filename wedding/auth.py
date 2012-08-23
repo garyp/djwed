@@ -10,7 +10,8 @@ from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout
 from django import forms
-from djwed.wedding.models import Invitee
+from djwed.wedding.email import email_invite_code
+from djwed.wedding.models import Invitee, Guest
 from djwed.wedding.settings import *
 from datetime import datetime
 
@@ -54,6 +55,18 @@ class LoginForm(forms.Form):
         return inv
 
 
+class ReminderForm(forms.Form):
+    email = forms.EmailField()
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        try:
+            guest = Guest.objects.get(email=email)
+        except Guest.DoesNotExist:
+            raise forms.ValidationError(u'No guest found with this email address')
+        return guest
+
+
 def rsvp_logout(request):
     logout(request)
     return HttpResponseRedirect('/rsvp/')
@@ -63,8 +76,9 @@ def rsvp_login(request):
     if request.REQUEST.has_key('next'):
         next = request.REQUEST['next']
     if request.method == 'POST': 
-        form = LoginForm(request.POST) 
-        if form.is_valid():
+        if 'login' in request.POST:
+            form = LoginForm(request.POST, prefix='login')
+            if form.is_valid():
                 inv = form.cleaned_data['token']
                 inv.last_visited = datetime.now()
                 inv.save()
@@ -75,9 +89,23 @@ def rsvp_login(request):
                     return HttpResponseRedirect(next) # Redirect after POST
                 else:
                     return HttpResponseRedirect('/rsvp/') # Redirect after POST
+            else:
+                reminder_form = ReminderForm(prefix='reminder')
+        elif 'reminder' in request.POST:
+            reminder_form = ReminderForm(request.POST, prefix='reminder')
+            if reminder_form.is_valid():
+                guest = reminder_form.cleaned_data['email']
+                email_invite_code(guest)
+                reminder_form = ReminderForm(prefix='reminder')
+            form = LoginForm(prefix='login')
     else:
-        form = LoginForm() # An unbound form
-    return render_to_response('login.html', { 'form': form, 'next': next })
+        form = LoginForm(prefix='login')
+        reminder_form = ReminderForm(prefix='reminder')
+    return render_to_response('login.html', {
+        'form': form,
+        'reminder_form': reminder_form,
+        'next': next,
+        })
 
 
 def rsvp_login_from_token(request, invite_code, target="rsvp"):

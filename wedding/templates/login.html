@@ -5,24 +5,36 @@
 
 {% block content %}
 
-{% if form.errors %}
-<p>Your invite code didn't match. Please try again. If you continue to have
-problems, please <a href="mailto:ab@example.org">email us</a> for a new invite
-code.</p>
+{% if form.errors or reminder_form.errors %}
+<p>Please try again. If you continue to have problems, please <a
+href="mailto:ab@example.org">email us</a> for a new invite code.</p>
 {% endif %}
 
 <h2>Please enter your invite code:</h2>
 
 <p>Your Invite Code was included in the save-the-date and invitations. It
 allows this site to know who you are in order to show you your invitation
-information. If you no longer have your code, please <a
-href="mailto:ab@example.org">email us</a>.</p>
+information.</p>
 
 <form method="post" action="{% url djwed.wedding.auth.rsvp_login %}">
+
 <div>
 {{ form.token }}
-<input type="submit" value="Login" />
+<input type="submit" name="login" value="Login" />
+{{ form.token.errors }}
 </div>
+
+<p>If you no longer have your code, please enter the email address to which the
+invitation was sent and the code will be emailed to you again:</p>
+<div>
+{{ reminder_form.email }}
+<input type="submit" name="reminder" value="Email invite code" />
+{{ reminder_form.email.errors }}
+</div>
+
+<p>Otherwise, please <a href="mailto:gn@realify.com">email us</a> for
+assistance.</p>
+
 <input type="hidden" name="next" value="{{ next }}" />
 </form>
 
