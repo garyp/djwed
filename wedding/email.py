@@ -101,6 +101,13 @@ def email_website_update_1(send=False, recipient=None):
     email_with_template(send, invitees, template_prefix="email_website_update",
                         subject="""Updates on Our upcoming wedding and receptions""")
 
+def email_invite_code(guest):
+    return email_guest("email_invite_code.txt",
+                       "Your invite code for %s's wedding website" % settings.WEDDING_NAMES,
+                       guest,
+                       send=settings.SEND_EMAIL,
+                       html_template="email_invite_code.html",
+                       )
 
 def email_with_template(send=False, invitees=None, template_prefix="",
                         subject="Updates for our upcoming wedding and receptions"):
