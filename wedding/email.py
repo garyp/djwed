@@ -8,20 +8,16 @@ from django.core.mail import send_mail, mail_managers, EmailMessage, EmailMultiA
 import smtplib
 
 
-def email_invitee(template, subject, invitee, send=False, html_template=None, attach_file=None):
-    """ Sends email to an invitee based on a template. """
-    recipients = []
-    for g in invitee.guest_set.all():
-        if g.email and g.email not in recipients:
-            recipients.append(g.email)
-    if not recipients:
-        print "No email addresses for guests of "+str(invitee)
-        return
-    body = loader.render_to_string(template, { 'invitee': invitee })
+def email_generic(template, subject, recipients, template_data=None, send=False,
+                  html_template=None, attach_file=None):
+    """ Sends email to recipient email addresses based on a template. """
+    if template_data is None:
+        template_data = {}
+    body = loader.render_to_string(template, template_data)
     from_email = '%s <%s>' % settings.FROM_EMAIL
     email = EmailMultiAlternatives(subject, body, from_email, recipients, bcc=())
     if html_template:
-        html_body = loader.render_to_string(html_template, { 'invitee': invitee })
+        html_body = loader.render_to_string(html_template, template_data)
         email.attach_alternative(html_body, "text/html")
     if attach_file:
         email.attach_file(attach_file)
@@ -32,10 +28,30 @@ def email_invitee(template, subject, invitee, send=False, html_template=None, at
             return email
         else:
             print "Would have sent to %s"%(str(recipients,))
+            print email.message()
             return email
     except smtplib.SMTPException, e:
-        print "Problem sending email to %s: %s"%(str(invitee),str(e))
+        print "Problem sending email to %s: %s"%(str(recipients),str(e))
 
+def email_guest(template, subject, guest, send=False, html_template=None, attach_file=None):
+    """ Sends email to a guest based on a template. """
+    if not guest.email:
+        print "No email address for "+str(guest)
+        return
+    return email_generic(template, subject, [guest.email], { 'guest': guest }, send,
+                         html_template, attach_file)
+
+def email_invitee(template, subject, invitee, send=False, html_template=None, attach_file=None):
+    """ Sends email to an invitee based on a template. """
+    recipients = []
+    for g in invitee.guest_set.all():
+        if g.email and g.email not in recipients:
+            recipients.append(g.email)
+    if not recipients:
+        print "No email addresses for guests of "+str(invitee)
+        return
+    return email_generic(template, subject, recipients, { 'invitee': invitee }, send,
+                         html_template, attach_file)
 
 def select_invitees(recipient):
     if recipient is None:
