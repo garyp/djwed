@@ -17,16 +17,19 @@ from datetime import datetime
 def user_to_invitee(user):
     return Invitee.objects.get(id=int(user.username[len(username_prefix):]))
 
+def token_to_invitee(token):
+    return Invitee.objects.get(invite_code__exact=token.upper())
 
 class InviteeAuthBackend:
 
     def authenticate(self, token=None):
-        print "InviteeAuthBackend called with %s"%(username,)
         try:
-            inv = Invitee.objects.get(invite_code__exact=username)
+            inv = token_to_invitee(token)
         except Invitee.DoesNotExist:
             return None
-        return inv.user()
+        user = inv.user()
+        user.backend = "djwed.wedding.auth.InviteeAuthBackend"
+        return user
 
     def get_user(self, user_id):
         try:
@@ -72,14 +75,12 @@ def rsvp_login(request):
 
 
 def rsvp_login_from_token(request, invite_code, target="rsvp"):
-    now = datetime.now()
-    try:
-        inv = Invitee.objects.get(invite_code__exact=invite_code.upper())
+    u = InviteeAuthBackend().authenticate(invite_code)
+    if u:
+        inv = user_to_invitee(u)
         inv.last_visited = datetime.now()
         inv.save()
-        u = inv.user()
-        u.backend = "djwed.wedding.auth.InviteeAuthBackend"
         login(request, u)
         return HttpResponseRedirect('/%s/'%(target,))
-    except Invitee.DoesNotExist:
+    else:
         return HttpResponseRedirect('/accounts/login/')
