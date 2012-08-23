@@ -45,6 +45,15 @@ class InviteeAuthBackend:
 class LoginForm(forms.Form):
     token = forms.CharField(max_length=10)
 
+    def clean_token(self):
+        token = self.cleaned_data['token']
+        try:
+            inv = token_to_invitee(token)
+        except Invitee.DoesNotExist:
+            raise forms.ValidationError(u'Invalid login token')
+        return inv
+
+
 def rsvp_logout(request):
     logout(request)
     return HttpResponseRedirect('/rsvp/')
@@ -56,8 +65,7 @@ def rsvp_login(request):
     if request.method == 'POST': 
         form = LoginForm(request.POST) 
         if form.is_valid():
-            try:
-                inv = Invitee.objects.get(invite_code__exact=form.cleaned_data['token'].upper())
+                inv = form.cleaned_data['token']
                 inv.last_visited = datetime.now()
                 inv.save()
                 u = inv.user()
@@ -67,8 +75,6 @@ def rsvp_login(request):
                     return HttpResponseRedirect(next) # Redirect after POST
                 else:
                     return HttpResponseRedirect('/rsvp/') # Redirect after POST
-            except Invitee.DoesNotExist:
-                form.errors['token'] = [u'Invalid login token']
     else:
         form = LoginForm() # An unbound form
     return render_to_response('login.html', { 'form': form, 'next': next })
