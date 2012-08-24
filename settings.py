@@ -1,5 +1,6 @@
 # Django settings for djwed project.
 
+import logging
 from socket import gethostname
 production = False
 
@@ -13,6 +14,8 @@ if not production:
 else:
     DEBUG = False
 TEMPLATE_DEBUG = DEBUG
+
+logging.basicConfig(level=logging.INFO)
 
 ADMINS = (
      ('Ben Bitdiddle', 'benb@example.org'),

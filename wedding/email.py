@@ -5,8 +5,10 @@ from django.template import Context, loader
 from djwed.wedding.models import *
 from datetime import datetime
 from django.core.mail import send_mail, mail_managers, EmailMessage, EmailMultiAlternatives
+import logging
 import smtplib
 
+logger = logging.getLogger(__name__)
 
 def email_generic(template, subject, recipients, template_data=None, send=False,
                   html_template=None, attach_file=None):
@@ -23,20 +25,19 @@ def email_generic(template, subject, recipients, template_data=None, send=False,
         email.attach_file(attach_file)
     try:
         if send:
-            print "Sending to %s"%(str(recipients,))
+            logger.info("Sending to %s"%(str(recipients,)))
             email.send()
             return email
         else:
-            print "Would have sent to %s"%(str(recipients,))
-            print email.message()
+            logger.info("Would have sent to %s"%(str(recipients,)))
             return email
     except smtplib.SMTPException, e:
-        print "Problem sending email to %s: %s"%(str(recipients),str(e))
+        logger.error("Problem sending email to %s: %s"%(str(recipients),str(e)))
 
 def email_guest(template, subject, guest, send=False, html_template=None, attach_file=None):
     """ Sends email to a guest based on a template. """
     if not guest.email:
-        print "No email address for "+str(guest)
+        logger.warning("No email address for "+str(guest))
         return
     return email_generic(template, subject, [guest.email], { 'guest': guest }, send,
                          html_template, attach_file)
@@ -48,7 +49,7 @@ def email_invitee(template, subject, invitee, send=False, html_template=None, at
         if g.email and g.email not in recipients:
             recipients.append(g.email)
     if not recipients:
-        print "No email addresses for guests of "+str(invitee)
+        logger.warning("No email addresses for guests of "+str(invitee))
         return
     return email_generic(template, subject, recipients, { 'invitee': invitee }, send,
                          html_template, attach_file)
