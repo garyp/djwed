@@ -35,8 +35,8 @@ class InviteeAdmin(admin.ModelAdmin):
     #    ('Date information', {'fields': ['pub_date'], 'classes': ['collapse']}),
     #]
     inlines = [GuestInline,InviteeNotesInline,CommentInline]
-    list_display = ('full_name', 'full_name_override', 'full_address', 'state','country')
-    list_editable = ('full_name_override',)
+    list_display = ('full_name', 'full_name_override', 'tags', 'full_address', 'state','country')
+    list_editable = ('full_name_override', 'tags')
     list_filter = ['side', 'association','country','state']
     search_fields = ['full_name_override','invite_code','guest__first_name', 'guest__last_name', 'guest__nickname']
     actions = [
@@ -53,10 +53,10 @@ class LongFoodChoiceField(forms.ModelChoiceField):
 
 class GuestAdmin(admin.ModelAdmin):
     inlines = [RSVPInline,]
-    list_display = ('full_name', 'first_name', 'nickname', 'last_name', 'email', 'home_phone', 'cell_phone')
+    list_display = ('full_name', 'first_name', 'nickname', 'last_name', 'email', 'home_phone', 'cell_phone', 'tags')
     list_filter = ['role', 'invitee__side', 'invitee__association']
     search_fields = ['first_name', 'last_name']
-    list_editable = ('first_name', 'last_name', 'email',  'home_phone', 'cell_phone')
+    list_editable = ('first_name', 'last_name', 'email',  'home_phone', 'cell_phone', 'tags')
 
 
 class RSVPAdminForm(forms.ModelForm):
