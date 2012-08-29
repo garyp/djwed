@@ -21,12 +21,10 @@ def all_guests():
     return Guest.objects.all().order_by('last_name','first_name')
 
 def yes_invitees(venue="MA"):
-    invitees = []
-    for r in RSVP.objects.filter(venue=venue,
-            status__in=RSVPOption.objects.yes()):
-        if (r.guest.invitee not in invitees):
-            invitees.append(r.guest.invitee)
-    return invitees
+    invitees = set(r.guest.invitee for r in
+                   RSVP.objects.filter(venue=venue,
+                                       status__in=RSVPOption.objects.yes()))
+    return list(invitees)
 
 
 def test_invitees():
