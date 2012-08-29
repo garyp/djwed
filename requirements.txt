@@ -1,6 +1,6 @@
 Django<1.4
 django_photologue
-django_tagging
+-e git+https://github.com/garyp/django-tagging.git@machinetags#egg=django_tagging
 PIL
 pyExcelerator
 reportlab
