@@ -1,6 +1,6 @@
+{% extends "email_base.txt" %}
 
-Dear {{invitee.first_names}},
-
+{% block content %}
 Alyssa P Hacker and Ben Bitdiddle are getting married!
 
 We would be honored if you would attend our celebration.
@@ -27,4 +27,4 @@ Formal invitations will follow.
 Best wishes,
 
      Alyssa and Ben
-
+{% endblock %}

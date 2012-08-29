@@ -1,0 +1,20 @@
+{% block header %}
+<div style="
+    font-family: georgia,new york,serif;
+    font-size: 12pt;
+    color: #990000;
+    background-color: #fff9ef;
+    padding: 2em;
+    border: solid 4px #dd0000;
+    ">
+<img style="margin: 6pt;" src="http://wedding.example.org/static/horizontal-border.png">
+{% endblock %}
+
+{% block salutation %}<p>Dear {{invitee.first_names}},</p>{% endblock %}
+
+{% block content %}{% endblock %}
+
+{% block footer %}
+<img style="margin: 6pt;" src="http://wedding.example.org/static/horizontal-border.png">
+</div>
+{% endblock %}

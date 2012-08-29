@@ -1,0 +1,17 @@
+{% extends "email_base.html" %}
+
+{% block salutation %}<p>Dear {{guest.first_name}},</p>{% endblock %}
+
+{% block content %}
+<p>Your invite code for <a
+href="http://wedding.example.org/">wedding.example.org</a> is:
+<tt>{{ guest.invitee.invite_code }}</tt></p>
+
+<p>You can update your RSVP and other information by going to:</p>
+
+<p style="margin-left: 5em;"><a href="http://wedding.example.org/rsvp/{{guest.invitee.invite_code}}/">http://wedding.example.org/rsvp/{{guest.invitee.invite_code}}/</a></p>
+
+<p>Best wishes,</p>
+
+<p style="margin-left: 3em;">Alyssa and Ben</p>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "email_base.txt" %}
+
+{% block salutation %}Dear {{guest.first_name}},{% endblock %}
+
+{% block content %}
+Your invite code for http://wedding.example.org/ is: {{ guest.invitee.invite_code }}
+
+You can update your RSVP and other information by going to:
+
+     http://wedding.example.org/rsvp/{{guest.invitee.invite_code}}/
+
+Best wishes,
+
+     Alyssa and Ben
+{% endblock %}

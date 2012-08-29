@@ -1,0 +1,4 @@
+{% block header %}{% endblock %}
+{% block salutation %}Dear {{invitee.first_names}},{% endblock %}
+{% block content %}{% endblock %}
+{% block footer %}{% endblock %}

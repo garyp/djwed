@@ -1,10 +1,6 @@
+{% extends "email_base.html" %}
 
-<div style="font-family: georgia,new york,serif; font-size: 12pt; color: #990000; background-color: #fff9ef; padding: 2em; border: solid 4px #dd0000;">
-
-<img style="margin: 6pt;" src="http://wedding.example.org/static/horizontal-border.png">
-
-<p>Dear {{invitee.first_names}},</p>
-
+{% block content %}
 <p>As we approach the date of our wedding, we'd like to provide you
 with some updates.</p>
 
@@ -53,9 +49,4 @@ p.m. with dinner at 5:30 p.m.</p>
 <p>Best wishes,</p>
 
 <p style="margin-left: 5em;">Alyssa and Ben</p>
-
-
-<img style="margin: 6pt;" src="http://wedding.example.org/static/horizontal-border.png">
-
-</div>
-
+{% endblock %}

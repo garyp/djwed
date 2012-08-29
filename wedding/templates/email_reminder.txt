@@ -1,5 +1,6 @@
-Dear {{invitee.first_names}},
+{% extends "email_base.txt" %}
 
+{% block content %}
 {%if invitee.rsvp_any_yes %}We look forward to seeing you at our wedding!
 
 {%if invitee.rsvp_missing_food_selection %}As of today, we still do not have food selections
@@ -27,3 +28,4 @@ As always, please let us know if you have any questions.
 Best wishes,
 
       Alyssa and Ben
+{% endblock %}

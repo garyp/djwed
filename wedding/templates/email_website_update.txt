@@ -1,6 +1,6 @@
+{% extends "email_base.txt" %}
 
-Dear {{invitee.first_names}},
-
+{% block content %}
 As we approach the date of our wedding, we'd like to provide you with
 some updates.
 
@@ -42,4 +42,4 @@ Formal invitations will follow.
 Best wishes,
 
        Alyssa and Ben
-
+{% endblock %}
