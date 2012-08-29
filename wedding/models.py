@@ -5,6 +5,9 @@ from django.db.models import Q
 from django.core.exceptions import ValidationError,ObjectDoesNotExist
 import datetime
 from django.contrib.auth.models import User, check_password
+import tagging.fields
+from tagging.models import Tag, TaggedItem
+
 from djwed.wedding.settings import *
 
 class PageSnippet(models.Model):
@@ -59,6 +62,7 @@ class Invitee(models.Model):
     limited_venue = models.ForeignKey(Venue, null=True, blank=True, verbose_name="Strongly preferred venue")  
     last_updated = models.DateTimeField("Last update on site", auto_now=True)
     last_visited = models.DateTimeField("Last site visitation", null=True, blank=True)
+    tags = tagging.fields.TagField()
 
     def ordered_guests(self):
         return self.guest_set.order_by("order")
@@ -252,6 +256,7 @@ class Guest(models.Model):
     role = models.CharField(max_length=20, blank=True)
     home_phone = models.CharField(max_length=50, blank=True)
     cell_phone = models.CharField(max_length=50, blank=True)
+    tags = tagging.fields.TagField()
 
     def full_name(self):
         if self.nickname:
