@@ -84,23 +84,23 @@ def select_invitees(recipient):
 
 
 def email_all_invitees(template, subject, send=False):
-    for inv in Invitee.objects.all():
-        email_invitee(template, subject, inv, send=send)
+    return [ email_invitee(template, subject, inv, send=send)
+             for inv in Invitee.objects.all() ]
 
 
 def email_save_the_date(send=False, recipient=None):
-    email_with_template(send,
-                        select_invitees(recipient),
-                        template_prefix="email_save_the_date",
-                        subject=("""Save the Date for %s's Wedding!"""
-                                 % settings.WEDDING_NAMES)
-                        )
+    return email_with_template(send,
+                               select_invitees(recipient),
+                               template_prefix="email_save_the_date",
+                               subject=("""Save the Date for %s's Wedding!"""
+                                        % settings.WEDDING_NAMES)
+                               )
 
 
 def email_website_update_1(send=False, recipient=None):
     invitees = select_invitees(recipient)
-    email_with_template(send, invitees, template_prefix="email_website_update",
-                        subject="""Updates on Our upcoming wedding and receptions""")
+    return email_with_template(send, invitees, template_prefix="email_website_update",
+                               subject="""Updates on Our upcoming wedding and receptions""")
 
 def email_invite_code(guest):
     return email_guest("email_invite_code.txt",
