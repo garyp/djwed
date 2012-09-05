@@ -104,10 +104,13 @@ class RSVPAdmin(admin.ModelAdmin):
             'bus_selection',
             'prelim',
             'last_update_source',
-            'table_assign'
+            'table_assign',
             )
     form = RSVPAdminForm
-    list_filter = ('venue','status')
+    list_filter = ('venue','status', 'guest__invitee__side',
+                   'guest__invitee__association', 'guest__invitee__country',
+                   'guest__invitee__state',
+                   )
 
     def guest_site(self,rsvp):
         return u"%s (%s)"%(rsvp.guest.full_name(), unicode(rsvp.venue.site))
