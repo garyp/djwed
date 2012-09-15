@@ -54,7 +54,7 @@ class LongFoodChoiceField(forms.ModelChoiceField):
 class GuestAdmin(admin.ModelAdmin):
     inlines = [RSVPInline,]
     list_display = ('full_name', 'email', 'tags')
-    list_filter = ['role', 'invitee__side', 'invitee__association']
+    list_filter = ['rsvp__status', 'role', 'invitee__side', 'invitee__association']
     search_fields = ['first_name', 'last_name']
     list_editable = ('email', 'tags')
 
