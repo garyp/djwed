@@ -178,9 +178,14 @@ class PageSnippetAdmin(admin.ModelAdmin):
 
 
 class GiftAdmin(admin.ModelAdmin):
-    search_fields = ['source__guest__first_name','notes','description','source__guest__last_name',
-                     'source__guest__nickname','notes','description']
-    list_filter = ['status','registry','assignment','registry']
+    search_fields = [
+            'source__guest__first_name',
+            'source__guest__nickname',
+            'source__guest__last_name',
+            'notes',
+            'description',
+            ]
+    list_filter = ['status','registry','assignment']
     list_display = ['source','received','description','notes',
                     'assignment','registry','status','thank_you_sent']
     list_editable = ('status', 'registry', 'assignment','thank_you_sent') # 'description')
