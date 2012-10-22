@@ -28,13 +28,17 @@ class CommentInline(admin.StackedInline):
     exclude = ('rsvp',)
     readonly_fields = ('text',)
     verbose_name_plural = "comments from invitees"
-    
+
+class ThankYouInline(admin.StackedInline):
+    model = ThankYou
+    extra = 1
+
 class InviteeAdmin(admin.ModelAdmin):
     #fieldsets = [
     #    (None,               {'fields': ['question']}),
     #    ('Date information', {'fields': ['pub_date'], 'classes': ['collapse']}),
     #]
-    inlines = [GuestInline,InviteeNotesInline,CommentInline]
+    inlines = [GuestInline,InviteeNotesInline,CommentInline,ThankYouInline]
     list_display = ('full_name', 'tags', 'full_address', 'state','country')
     list_editable = ('tags',)
     list_filter = ['side', 'association','country','state']
@@ -179,22 +183,27 @@ class PageSnippetAdmin(admin.ModelAdmin):
 
 class GiftAdmin(admin.ModelAdmin):
     search_fields = [
-            'source__guest__first_name',
-            'source__guest__nickname',
-            'source__guest__last_name',
+            'sources__guest__first_name',
+            'sources__guest__nickname',
+            'sources__guest__last_name',
             'notes',
             'description',
             ]
     list_filter = ['status','registry','assignment']
-    list_display = ['source','received','description','notes',
-                    'assignment','registry','status','thank_you_sent']
-    list_editable = ('status', 'registry', 'assignment','thank_you_sent') # 'description')
+    list_display = ['source_names','received','description','notes',
+                    'assignment','registry','status']
+    list_editable = ('status', 'registry', 'assignment')
+    inlines = [ThankYouInline,]
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == "source" and request.META['REQUEST_METHOD'] != 'POST':
             kwargs["queryset"] = Invitee.objects.all().order_by('guest__last_name','guest__first_name')
             return db_field.formfield(**kwargs)
         return super(GiftAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
+
+    def source_names(self, gift):
+        return u"\n".join(gift.sources.all())
+    source_names.short_description = "Sources"
 
 
 class TableAdmin(admin.ModelAdmin):
