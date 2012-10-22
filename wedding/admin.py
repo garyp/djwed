@@ -214,8 +214,13 @@ class GiftAdmin(admin.ModelAdmin):
     list_filter = ['status','registry','assignment']
     list_display = ['source_names','received','description','notes',
                     'assignment','registry','status']
-    list_editable = ('status', 'registry', 'assignment')
+    list_editable = ('status', 'assignment')
     inlines = [GiftThankYouInline,]
+    radio_fields = {
+            'assignment': admin.HORIZONTAL,
+            'registry': admin.VERTICAL,
+            'status': admin.HORIZONTAL,
+            }
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == "source" and request.META['REQUEST_METHOD'] != 'POST':
