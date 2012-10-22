@@ -458,8 +458,6 @@ class Gift(models.Model):
     STATUS_CHOICES = (
         (u'list', u'Ordered'),
         (u'recv', u'Received'),
-        (u'written', u'ThankYou written'),
-        (u'sent', u'ThankYou sent'),
         )
     REGISTRY_CHOICES = (
         (u'ws',       u'Williams Sonoma'),
@@ -474,15 +472,13 @@ class Gift(models.Model):
         (u'check',    u'Check'),
         (u'multiple', u'Multiple'),
         )    
-    source = models.ForeignKey(Invitee)
-    sources = models.ManyToManyField(Invitee, through='ThankYou', related_name='+')
+    sources = models.ManyToManyField(Invitee, through='ThankYou')
     received = models.DateField()
     description = models.TextField(blank=True)
     notes = models.TextField(blank=True)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES)
     registry = models.CharField(max_length=20, choices=REGISTRY_CHOICES)
     assignment = models.CharField(max_length=5, choices=ASSIGNMENT_CHOICES)
-    thank_you_sent = models.DateField(null=True,blank=True)
 
     def __unicode__(self):
         return u"Gift from: %s" % u"; ".join(self.sources.all())
