@@ -29,16 +29,22 @@ class CommentInline(admin.StackedInline):
     readonly_fields = ('text',)
     verbose_name_plural = "comments from invitees"
 
-class ThankYouInline(admin.StackedInline):
+class GiftThankYouInline(admin.TabularInline):
     model = ThankYou
-    extra = 1
+    extra = 0
+    verbose_name = "Source"
+    verbose_name_plural = "Sources"
+
+class InviteeThankYouInline(admin.TabularInline):
+    model = ThankYou
+    extra = 0
 
 class InviteeAdmin(admin.ModelAdmin):
     #fieldsets = [
     #    (None,               {'fields': ['question']}),
     #    ('Date information', {'fields': ['pub_date'], 'classes': ['collapse']}),
     #]
-    inlines = [GuestInline,InviteeNotesInline,CommentInline,ThankYouInline]
+    inlines = [GuestInline,InviteeNotesInline,CommentInline,InviteeThankYouInline]
     list_display = ('full_name', 'tags', 'full_address', 'state','country')
     list_editable = ('tags',)
     list_filter = ['side', 'association','country','state']
@@ -193,7 +199,7 @@ class GiftAdmin(admin.ModelAdmin):
     list_display = ['source_names','received','description','notes',
                     'assignment','registry','status']
     list_editable = ('status', 'registry', 'assignment')
-    inlines = [ThankYouInline,]
+    inlines = [GiftThankYouInline,]
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == "source" and request.META['REQUEST_METHOD'] != 'POST':
