@@ -494,8 +494,8 @@ class ThankYou(models.Model):
     gift = models.ForeignKey(Gift, null=True, blank=True)
     invitee = models.ForeignKey(Invitee)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES)
-    sent = models.DateField(null=True,blank=True)
+    sent = models.DateField("Thank You sent date", null=True, blank=True)
 
     def __unicode__(self):
-        return u"%s for %s" % (self.status, self.invitee)
+        return u"%s for %s" % (self.get_status_display(), self.invitee)
 
