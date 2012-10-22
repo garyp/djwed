@@ -233,6 +233,28 @@ class GiftAdmin(admin.ModelAdmin):
     source_names.short_description = "Sources"
 
 
+class ThankYouAdmin(admin.ModelAdmin):
+    list_display = [
+            'invitee',
+            'status',
+            'sent',
+            ]
+    list_editable = ['status', 'sent']
+    list_filter = [
+            'status',
+            'sent',
+            'gift__assignment',
+            'gift__received',
+            ]
+    search_fields = [
+            'invitee__guest__first_name',
+            'invitee__guest__last_name',
+            'invitee__guest__nickname',
+            'gift__description',
+            'gift__notes',
+            ]
+
+
 class TableAdmin(admin.ModelAdmin):
     search_fields = ['rsvp__guest__first_name','name','number','notes',
                      'rsvp__guest__last_name','invitee__guest__nickname']
@@ -278,6 +300,8 @@ admin.site.register(RSVPOption, RSVPOptionAdmin)
 admin.site.register(Comment, CommentAdmin)
 
 admin.site.register(Gift, GiftAdmin)
+
+admin.site.register(ThankYou, ThankYouAdmin)
 
 admin.site.register(Table, TableAdmin)
 
