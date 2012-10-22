@@ -4,6 +4,21 @@ from djwed.wedding.admin_actions import *
 from django.contrib import admin
 
 
+class RequireOneFormSet(forms.models.BaseInlineFormSet):
+    """Require at least one form in the formset to be completed."""
+    def clean(self):
+        """Check that at least one form has been completed."""
+        super(RequireOneFormSet, self).clean()
+        if not self.is_valid():
+            return
+        for cleaned_data in self.cleaned_data:
+            # form has data and we aren't deleting it.
+            if cleaned_data and not cleaned_data.get('DELETE', False):
+                # we can break out after the first complete form
+                return
+        raise forms.ValidationError("At least one %s is required." %
+                                    (self.model._meta.verbose_name,))
+
 
 class InviteeNotesInline(admin.TabularInline):
     model = InviteeNotes
@@ -34,6 +49,7 @@ class GiftThankYouInline(admin.TabularInline):
     extra = 0
     verbose_name = "Source"
     verbose_name_plural = "Sources"
+    formset = RequireOneFormSet
 
 class InviteeThankYouInline(admin.TabularInline):
     model = ThankYou
