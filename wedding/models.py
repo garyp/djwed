@@ -491,7 +491,7 @@ class ThankYou(models.Model):
         (u'written', u'ThankYou written'),
         (u'sent', u'ThankYou sent'),
         )
-    gift = models.ForeignKey(Gift, null=True)
+    gift = models.ForeignKey(Gift, null=True, blank=True)
     invitee = models.ForeignKey(Invitee)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES)
     sent = models.DateField(null=True,blank=True)
