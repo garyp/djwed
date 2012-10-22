@@ -202,7 +202,7 @@ class GiftAdmin(admin.ModelAdmin):
         return super(GiftAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
 
     def source_names(self, gift):
-        return u"\n".join(gift.sources.all())
+        return u"; ".join(unicode(inv) for inv in gift.sources.all())
     source_names.short_description = "Sources"
 
 

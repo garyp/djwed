@@ -481,7 +481,8 @@ class Gift(models.Model):
     assignment = models.CharField(max_length=5, choices=ASSIGNMENT_CHOICES)
 
     def __unicode__(self):
-        return u"Gift from: %s" % u"; ".join(self.sources.all())
+        return u"Gift from: %s" % u"; ".join(unicode(inv)
+                                             for inv in self.sources.all())
 
 
 class ThankYou(models.Model):
