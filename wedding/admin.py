@@ -245,6 +245,7 @@ class ThankYouAdmin(admin.ModelAdmin):
             'sent',
             'gift__assignment',
             'gift__received',
+            'invitee__side',
             ]
     search_fields = [
             'invitee__guest__first_name',
